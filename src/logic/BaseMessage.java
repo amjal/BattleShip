@@ -1,0 +1,7 @@
+package logic;
+
+/**
+ * Created by amir on 6/28/17.
+ */
+public class BaseMessage {
+}
