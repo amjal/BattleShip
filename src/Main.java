@@ -58,6 +58,7 @@ frame.setSize(700,500);
 frame.setDefaultCloseOperation(3);
 //gamePanel.revalidate();
 
+
 frame.add(gamePanel.getFullPanel());
 frame.setVisible(true);
 
