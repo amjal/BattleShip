@@ -18,15 +18,15 @@ public class TCPChannel {
     public TCPChannel(Socket Socket , int timeout){
 
     }
-    public byte[] read(final int count){
+    //public byte[] read(final int count){
 
-    }
+    //}
     public void write(byte[] data){
 
     }
-    public boolean isConnected(){
+    //public boolean isConnected(){
 
-    }
+    //}
     public void closeChannel(){
 
     }

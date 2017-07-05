@@ -27,9 +27,9 @@ public class NetworkHandler extends Thread {
     public void stopSelf(){
 
     }
-    private byte[] readChannel(){
+    //private byte[] readChannel(){
 
-    }
+    //}
     private class ReceivedMessageConsumer extends Thread{
         @Override public void run(){
 
