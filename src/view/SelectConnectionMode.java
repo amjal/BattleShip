@@ -15,8 +15,12 @@ public class SelectConnectionMode {
     private JRadioButton guestRadioButton;
     private JTextField textField3;
     private JTextField textField4;
+    private JLabel hostPort;
+    private JButton startButton;
+    private JButton exitButton;
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
+
     }
 }
