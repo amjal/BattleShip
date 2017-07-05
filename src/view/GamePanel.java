@@ -6,7 +6,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 
-import static com.sun.tools.internal.xjc.reader.Ring.add;
 
 /**
  * Created by parsa on 7/5/17.
@@ -39,13 +38,11 @@ public class GamePanel extends JFrame {
         cells[5][5].setForeground(Color.cyan);
         setSize(1000,1000);
         setDefaultCloseOperation(3);
-        setResizable(true);
-        setLayout(null);
         gridPanel.setSize(500,500);
         add(splitPane1);
         setVisible(true);
     }
-    }
+}
 
 
 
