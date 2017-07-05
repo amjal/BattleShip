@@ -1,5 +1,4 @@
 import view.SelectConnectionMode;
-
 /**
  * Created by amir on 6/28/17.
  */
