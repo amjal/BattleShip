@@ -55,8 +55,6 @@
         <rowspec value="center:d:grow"/>
         <rowspec value="top:3dlu:noGrow"/>
         <rowspec value="center:max(d;4px):noGrow"/>
-        <rowspec value="top:3dlu:noGrow"/>
-        <rowspec value="center:max(d;4px):noGrow"/>
         <colspec value="fill:d:grow"/>
         <constraints>
           <splitpane position="left"/>
@@ -66,7 +64,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="922d6" binding="gamePlace" custom-create="true" layout-manager="FormLayout">
+          <grid id="922d6" binding="gamePlace" layout-manager="FormLayout">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <forms defaultalign-vert="false"/>
@@ -81,7 +79,7 @@
           </grid>
           <component id="77767" class="javax.swing.JButton" binding="leaveButton">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <forms/>
             </constraints>
             <properties>
@@ -89,17 +87,6 @@
               <text value="leave"/>
             </properties>
           </component>
-          <grid id="ebd75" layout-manager="FormLayout">
-            <rowspec value="center:d:grow"/>
-            <colspec value="fill:d:grow"/>
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-              <forms/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children/>
-          </grid>
         </children>
       </grid>
     </children>
