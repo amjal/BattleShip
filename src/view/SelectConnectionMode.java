@@ -71,10 +71,13 @@ public class SelectConnectionMode extends JFrame {
             }
         });
         startButton.addActionListener(new ActionListener() {
+            public void checkForFields() throws NullPointerException{
+                if(name.getText().length() ==0 || hostIP.getText().length() ==0) throw new NullPointerException();
+            }
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try{
-
+                    checkForFields();
                     switch (connectionType) {
                         case HOST:{
                             new MessageManager(Integer.parseInt(hostPort.getText()));
@@ -89,13 +92,21 @@ public class SelectConnectionMode extends JFrame {
                     if(!guestRadioButton.isSelected() && !hostRadioButton1.isSelected()){
                         message.setText("Please select a mode!");
                     }
-                    else if(hostPort.getText().length() ==0 || guestPort.getText().length() == 0){
-                        message.setText("Please specify port!");
+                    else if(name.getText().length() ==0){
+                        message.setText("Please enter your name!");
                     }
                     else if(hostIP.getText().length() ==0){
-                        message.setText("Please enter IP");
+                        message.setText("Please enter IP address!");
                     }
+                }catch(NumberFormatException e){
+                    message.setText("Please enter a valid port number!");
                 }
+            }
+        });
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
             }
         });
     }
