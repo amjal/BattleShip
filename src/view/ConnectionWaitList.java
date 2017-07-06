@@ -35,6 +35,7 @@ public class ConnectionWaitList extends JFrame {
         scrollPane.setBounds(0 , 0 , 200 , 600);
         getContentPane().add(scrollPane);
         revalidate();
+        paintList();
         setVisible(true);
     }
     public void addPanel(String name , String ip){

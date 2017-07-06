@@ -3,6 +3,7 @@ package logic;
 import javax.swing.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.Queue;
@@ -18,11 +19,13 @@ public class NetworkHandler extends Thread {
     private Queue<byte[]> receivedQueue;
     private ReceivedMessageConsumer mConsumerThread;
     private INetworkHandlerCallback iNetworkHandlerCallback;
+    private Player player;
     public NetworkHandler(SocketAddress socketAddress , INetworkHandlerCallback iNetworkHandlerCAllback){
 
     }
     public NetworkHandler(Socket socket, INetworkHandlerCallback iNetworkHandlerCAllback){
         mTCPChannel = new TCPChannel(socket);
+        player = new Player(socket.getRemoteSocketAddress() , "");
         this.iNetworkHandlerCallback = iNetworkHandlerCAllback;
     }
     public void sendMessage(BaseMessage baseMessage){
@@ -54,5 +57,8 @@ public class NetworkHandler extends Thread {
                 //iNetworkHandlerCallback.onMessageReceived();
             }
         }
+    }
+    public Player getPlayer(){
+        return player;
     }
 }

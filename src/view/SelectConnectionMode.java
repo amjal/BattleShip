@@ -81,7 +81,8 @@ public class SelectConnectionMode extends JFrame {
                     checkForFields();
                     switch (connectionType) {
                         case HOST:{
-                            new MessageManager(Integer.parseInt(hostPort.getText()));
+                            dispose();
+                            new MessageManager(Integer.parseInt(hostPort.getText()) , new ConnectionWaitList());
                             break;
                         }
                         case CLIENT:{

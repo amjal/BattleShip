@@ -3,6 +3,7 @@ package logic;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
@@ -50,5 +51,8 @@ public class TCPChannel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public SocketAddress getRemoteAddress(){
+        return socket.getRemoteSocketAddress();
     }
 }

@@ -17,7 +17,7 @@ public class PleaseWait extends JFrame{
 
     public PleaseWait(String ip , int port) {
         setSize(300, 100);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -38,6 +38,8 @@ public class PleaseWait extends JFrame{
                         System.out.println("ok");
                     }
                 }
+                dispose();
+                new GameFrame();
             }
         });
         t.start();
