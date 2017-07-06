@@ -5,7 +5,8 @@
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
     <properties>
-      <preferredSize width="500" height="500"/>
+      <dividerLocation value="400"/>
+      <preferredSize width="2000" height="1000"/>
     </properties>
     <border type="none"/>
     <children>
@@ -65,28 +66,166 @@
         <border type="none"/>
         <children>
           <grid id="922d6" binding="gamePlace" layout-manager="FormLayout">
+            <colspec value="fill:d:grow"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <forms defaultalign-vert="false"/>
             </constraints>
             <properties>
-              <background color="-12511211"/>
+              <background color="-3090"/>
               <enabled value="false"/>
-              <preferredSize width="50" height="50"/>
+              <preferredSize width="500" height="500"/>
             </properties>
             <border type="none"/>
             <children/>
           </grid>
-          <component id="77767" class="javax.swing.JButton" binding="leaveButton">
+          <grid id="92ad6" binding="gameInfoPanel" layout-manager="FormLayout">
+            <rowspec value="center:d:grow"/>
+            <rowspec value="top:3dlu:noGrow"/>
+            <rowspec value="center:d:grow"/>
+            <rowspec value="top:3dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:3dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:3dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:3dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <colspec value="fill:d:grow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:max(d;4px):noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:max(d;4px):noGrow"/>
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <forms/>
             </constraints>
-            <properties>
-              <label value="leave"/>
-              <text value="leave"/>
-            </properties>
-          </component>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="bd234" class="javax.swing.JLabel" binding="size4Ship">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties>
+                  <background color="-13026642"/>
+                  <foreground color="-13026642"/>
+                  <horizontalTextPosition value="2"/>
+                  <opaque value="true"/>
+                  <preferredSize width="64" height="16"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="6aa73" class="javax.swing.JLabel" binding="size4ShipN">
+                <constraints>
+                  <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <horizontalAlignment value="0"/>
+                  <text value="4"/>
+                </properties>
+              </component>
+              <component id="9bba2" class="javax.swing.JLabel" binding="size3Ship">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties>
+                  <background color="-13026642"/>
+                  <foreground color="-13026642"/>
+                  <horizontalAlignment value="2"/>
+                  <horizontalTextPosition value="2"/>
+                  <opaque value="true"/>
+                  <preferredSize width="48" height="16"/>
+                  <requestFocusEnabled value="true"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="30785" class="javax.swing.JLabel" binding="size3ShipN">
+                <constraints>
+                  <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <text value="3"/>
+                </properties>
+              </component>
+              <component id="95c68" class="javax.swing.JLabel" binding="size2Ship">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties>
+                  <background color="-13026642"/>
+                  <foreground color="-13026642"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <opaque value="true"/>
+                  <preferredSize width="32" height="16"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="1668a" class="javax.swing.JLabel" binding="size2ShipN">
+                <constraints>
+                  <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <text value="2"/>
+                </properties>
+              </component>
+              <component id="8e5ad" class="javax.swing.JLabel" binding="size1Ship">
+                <constraints>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties>
+                  <background color="-13026642"/>
+                  <foreground color="-13026642"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <opaque value="true"/>
+                  <preferredSize width="16" height="16"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="ce" class="javax.swing.JLabel" binding="size1ShipN">
+                <constraints>
+                  <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <doubleBuffered value="true"/>
+                  <text value="1"/>
+                </properties>
+              </component>
+              <component id="d4eb4" class="javax.swing.JButton" binding="readyButton">
+                <constraints>
+                  <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties>
+                  <preferredSize width="50" height="32"/>
+                  <text value="Button"/>
+                </properties>
+              </component>
+              <component id="ce217" class="javax.swing.JButton" binding="resetButton">
+                <constraints>
+                  <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <text value="Button"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
         </children>
       </grid>
     </children>

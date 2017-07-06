@@ -56,7 +56,7 @@ public class Main {
 
 
         JFrame frame = new JFrame("test");
-        frame.setSize(700, 500);
+        frame.setSize(1000, 700);
         frame.setDefaultCloseOperation(3);
 GamePanel gamePanel=new GamePanel();
 
