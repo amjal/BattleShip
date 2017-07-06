@@ -7,21 +7,26 @@ import java.awt.*;
 /**
  * Created by parsa on 7/5/17.
  */
-/**
- * Created by parsa on 7/5/17.
- */
 public class GamePanel extends JFrame {
     private JButton button1;
     private JTextArea textArea1;
     private JTextField textField1;
     private JSplitPane splitPane1;
     private JPanel gamePlace;
-    private JButton leaveButton;
     private JPanel gameInfoPanel;
+    private JLabel size4Ship;
+    private JLabel size4ShipN;
+    private JLabel size3Ship;
+    private JLabel size3ShipN;
+    private JLabel size2Ship;
+    private JLabel size2ShipN;
+    private JLabel size1Ship;
+    private JLabel size1ShipN;
+    private JButton readyButton;
+    private JButton resetButton;
 
 
     public GamePanel() {
-
         JPanel gridPanel = new JPanel();
         gamePlace.setLayout(new GridLayout(10, 10));
         JLabel[][] cells = new JLabel[10][10];
@@ -39,7 +44,7 @@ public class GamePanel extends JFrame {
         }
         cells[5][5].setForeground(Color.cyan);
         //setGamePlace(gridPanel);
-        this.gamePlace=gamePlace;
+        //this.gamePlace=gamePlace;
 
     }
 
@@ -59,4 +64,6 @@ public class GamePanel extends JFrame {
     public void setButton1(String string) {
         button1.setText(string);
     }
+
+
 }
