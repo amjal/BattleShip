@@ -13,28 +13,46 @@ import java.util.Scanner;
  */
 public class NetworkHandler extends Thread {
     private TCPChannel mTCPChannel;
-    private Queue<byte[]> mSendQueue;
-    private Queue<byte[]> mRecievedQueue;
+    private boolean go = true;
+    private Queue<byte[]> sendQueue;
+    private Queue<byte[]> receivedQueue;
     private ReceivedMessageConsumer mConsumerThread;
+    private INetworkHandlerCallback iNetworkHandlerCallback;
     public NetworkHandler(SocketAddress socketAddress , INetworkHandlerCallback iNetworkHandlerCAllback){
 
     }
     public NetworkHandler(Socket socket, INetworkHandlerCallback iNetworkHandlerCAllback){
         mTCPChannel = new TCPChannel(socket);
+        this.iNetworkHandlerCallback = iNetworkHandlerCAllback;
     }
     public void sendMessage(BaseMessage baseMessage){
-        mTCPChannel.write(baseMessage.getSerialized());
+        sendQueue.add(baseMessage.getSerialized());
     }
-    @Override public void run(){
+    @Override
+    public void run(){
+        while(go && mTCPChannel.isConnected()){
+            for(int i =0 ; i < sendQueue.size() ; i ++) {
+                mTCPChannel.write(sendQueue.poll());
+            }
+            byte[] buffer;
+            do{
+                buffer = readChannel();
+                receivedQueue.add(buffer);
+            }while(buffer[3] != 0);
+        }
     }
     public void stopSelf(){
-
+        go = false;
     }
-    //private byte[] readChannel(){
-    //}
+    private byte[] readChannel(){
+        return mTCPChannel.read(4);
+    }
     private class ReceivedMessageConsumer extends Thread{
-        @Override public void run(){
-
+        @Override
+        public void run(){
+            for(int i =0 ; i < receivedQueue.size() ; i++){
+                //iNetworkHandlerCallback.onMessageReceived();
+            }
         }
     }
 }

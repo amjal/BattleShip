@@ -85,7 +85,8 @@ public class SelectConnectionMode extends JFrame {
                             break;
                         }
                         case CLIENT:{
-                            new MessageManager(hostIP.getText() , Integer.parseInt(guestPort.getText()));
+                            dispose();
+                            new PleaseWait(hostIP.getText() , Integer.parseInt(guestPort.getText()));
                             break;
                         }
                     }
@@ -102,7 +103,6 @@ public class SelectConnectionMode extends JFrame {
                 }catch(NumberFormatException e){
                     message.setText("Please enter a valid port number!");
                 }
-                dispose();
             }
         });
         exitButton.addActionListener(new ActionListener() {
