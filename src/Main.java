@@ -48,7 +48,7 @@ public class Main {
      * cells[5][5].setForeground(Color.cyan)
      * gridPanel.setSize(500,500);
      * GamePanel gamePanel =new GamePanel(gridPanel);
-     * //gamePanel.setGamePlace(gridPanel)
+     * //gamePanel.setGamePlace(gridPanel);
      *
      * @param args
      */
