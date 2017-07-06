@@ -1,5 +1,5 @@
 import view.GameFrame;
-import view.GamePanel;
+///import view.GamePanel;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
