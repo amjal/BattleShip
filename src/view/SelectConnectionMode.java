@@ -32,7 +32,7 @@ public class SelectConnectionMode extends JFrame {
     public SelectConnectionMode(){
         setSize(450 , 300);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         add(connectionSelection);
         setVisible(true);
 
@@ -72,7 +72,8 @@ public class SelectConnectionMode extends JFrame {
         });
         startButton.addActionListener(new ActionListener() {
             public void checkForFields() throws NullPointerException{
-                if(name.getText().length() ==0 || hostIP.getText().length() ==0) throw new NullPointerException();
+                if(name.getText().length() ==0) throw new NullPointerException();
+                else if(hostIP.isEditable() && hostIP.getText().length() ==0) throw new NullPointerException();
             }
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -101,6 +102,7 @@ public class SelectConnectionMode extends JFrame {
                 }catch(NumberFormatException e){
                     message.setText("Please enter a valid port number!");
                 }
+                dispose();
             }
         });
         exitButton.addActionListener(new ActionListener() {
