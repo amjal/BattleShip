@@ -13,12 +13,9 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
     public MessageManager(int port){
         serverSocketHandler = new ServerSocketHandler(port, this, this);
     }
-    public MessageManager(String ip, int port){
-        try {
-            networkHandlerList.add(new NetworkHandler(new Socket(ip , port) , this));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public MessageManager(String ip, int port) throws IOException{
+        Socket socket = new Socket(ip , port);
+        networkHandlerList.add(new NetworkHandler(socket , this));
     }
     @Override
     public void onNewConnectionReceived(NetworkHandler networkHandler) {

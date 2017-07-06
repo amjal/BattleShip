@@ -1,5 +1,5 @@
 import view.GameFrame;
-///import view.GamePanel;
+import view.GamePanel;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -45,10 +45,10 @@ public class Main {
      * }
      * <p>
      * }
-     * cells[5][5].setForeground(Color.cyan)
+     * cells[5][5].setForeground(Color.cyan);
      * gridPanel.setSize(500,500);
      * GamePanel gamePanel =new GamePanel(gridPanel);
-     * //gamePanel.setGamePlace(gridPanel)
+     * //gamePanel.setGamePlace(gridPanel);
      *
      * @param args
      */
