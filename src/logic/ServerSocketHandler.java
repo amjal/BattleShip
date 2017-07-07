@@ -25,7 +25,6 @@ public class ServerSocketHandler extends  Thread{
     @Override
     public void run(){
         ServerSocket serverSocket = null;
-        //Date date = new Date();
         try {
             serverSocket = new ServerSocket(port);
             System.out.println("successfully created server");

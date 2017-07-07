@@ -1,20 +1,15 @@
 package logic;
 
-import javax.swing.*;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Scanner;
 
 /**
  * Created by amir on 7/3/17.
  */
-public class NetworkHandler extends Thread {
+public class NetworkHandler{
     private TCPChannel mTCPChannel;
     private boolean go = true;
     private Queue<byte[]> sendQueue;
@@ -33,33 +28,16 @@ public class NetworkHandler extends Thread {
         sendMessage(new GreetingMessage(name));
         consumerThread = new ReceivedMessageConsumer();
         remoteAddress = mTCPChannel.getRemoteAddress();
-        start();
+        new Sender();
+        new Reader();
     }
     public void sendMessage(BaseMessage baseMessage){
         baseMessage.serialize();
         sendQueue.add(baseMessage.getSerialized());
     }
-    @Override
-    public void run(){
-        while(go && mTCPChannel.isConnected()){
-            for(int i =0 ; i < sendQueue.size() ; i ++) {
-                /*for(int j =0 ; j < sendQueue.peek().length ; j++){
-                    System.out.print(sendQueue.peek()[j]);
-                }*/
-                System.out.println();
-                mTCPChannel.write(sendQueue.poll());
-            }
-            byte[] buffer;
-            int size = getIncomeMessageSize();
-            if(size > 0){
-                buffer = readChannel(size -4);
-                receivedQueue.add(buffer);
-                consumerThread.start();
-            }
-        }
-    }
     public void stopSelf(){
         go = false;
+        mTCPChannel.closeChannel();
     }
     private byte[] readChannel(int count){
         return mTCPChannel.read(count);
@@ -68,18 +46,63 @@ public class NetworkHandler extends Thread {
         return ByteBuffer.wrap(mTCPChannel.read(4)).getInt();
     }
     private class ReceivedMessageConsumer extends Thread{
+        ReceivedMessageConsumer(){
+            start();
+        }
         @Override
-        public void run(){
-            while (receivedQueue.size()>0){
-                switch (receivedQueue.peek()[0]){
-                    case MessageTypes.GREETING: {
-                        /*for(int i =0 ; i < receivedQueue.peek().length ; i ++){
-                            System.out.print(receivedQueue.peek()[i]);
-                        }*/
-                        iNetworkHandlerCallback.onMessageReceived(new GreetingMessage(receivedQueue.poll()) ,
-                                NetworkHandler.this);
-                        break;
+        public void run() {
+            while (go && mTCPChannel.isConnected()) {
+                if (receivedQueue.size() > 0) {
+                    switch (receivedQueue.peek()[0]) {
+                        case MessageTypes.GREETING: {
+                            iNetworkHandlerCallback.onMessageReceived(new GreetingMessage(receivedQueue.poll()),
+                                    NetworkHandler.this);
+                            break;
+                        }
+                        case MessageTypes.REQUEST_ANSWER: {
+                            iNetworkHandlerCallback.onMessageReceived(new RequestAnswerMessage(receivedQueue.poll()),
+                                    NetworkHandler.this);
+                            break;
+                        }
                     }
+                }
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        }
+    private class Sender extends Thread{
+        Sender(){
+            start();
+        }
+        @Override
+        public void run() {
+            while(go && mTCPChannel.isConnected()) {
+                if(sendQueue.size() >0)
+                    mTCPChannel.write(sendQueue.poll());
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    private class Reader extends Thread{
+        Reader(){
+            start();
+        }
+        @Override
+        public void run() {
+            while(go && mTCPChannel.isConnected()){
+                byte[] buffer;
+                int size = getIncomeMessageSize();
+                if(size > 0){
+                    buffer = readChannel(size -4);
+                    receivedQueue.add(buffer);
                 }
             }
         }

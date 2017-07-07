@@ -14,20 +14,40 @@ import java.util.List;
 public class MessageManager implements IServerSocketHandlerCallback, INetworkHandlerCallback{
     private ServerSocketHandler serverSocketHandler;
     private List<NetworkHandler> networkHandlerList;
-    private ConnectionWaitList connectionWaitList;
-    public MessageManager(int port , ConnectionWaitList connectionWaitList , String name){
+    ConnectionWaitList connectionWaitList;
+    RequestAnswerListener ral;
+    public MessageManager(int port , String name){
         networkHandlerList = new ArrayList<>();
         serverSocketHandler = new ServerSocketHandler(port, this, this , name);
-        this.connectionWaitList = connectionWaitList;
+        connectionWaitList = new ConnectionWaitList(this);
     }
     public MessageManager(String ip, int port , String name) throws IOException{
-        networkHandlerList = new ArrayList<>();
         Socket socket = new Socket(InetAddress.getByName(ip), port);
+        networkHandlerList = new ArrayList<>();
         networkHandlerList.add(new NetworkHandler(socket , this , name));
     }
     @Override
     public void onNewConnectionReceived(NetworkHandler networkHandler) {
         networkHandlerList.add(networkHandler);
+    }
+
+    @Override
+    public void onRequestAccepted(String address) {
+        for(NetworkHandler n:networkHandlerList){
+            if(n.getRemoteAddress().toString().equals(address)){
+                n.sendMessage(new RequestAnswerMessage(true));
+            }
+        }
+    }
+
+    @Override
+    public void onRequestRejected(String address) {
+        for(int i =0 ; i < networkHandlerList.size() ; i++){
+            if(networkHandlerList.get(i).getRemoteAddress().toString().equals(address)){
+                networkHandlerList.get(i).sendMessage(new RequestAnswerMessage(false));
+                networkHandlerList.remove(i);
+            }
+        }
     }
 
     @Override
@@ -42,11 +62,31 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
                 }
                 break;
             }
+            case MessageTypes.REQUEST_ANSWER:{
+                RequestAnswerMessage m = (RequestAnswerMessage)baseMessage;
+                m.deserialize();
+                if(m.isAccepted()){
+                    ral.onAccept();
+                }
+                else{
+                    networkHandler.stopSelf();
+                    networkHandlerList.remove(networkHandler);
+                    ral.onReject();
+                }
+            }
         }
+    }
+
+    @Override
+    public void onMessageSent(BaseMessage baseMessage) {
+
     }
 
     @Override
     public void onSocketClosed() {
 
+    }
+    public void addRequestAnswerListener(RequestAnswerListener ral){
+        this.ral = ral;
     }
 }

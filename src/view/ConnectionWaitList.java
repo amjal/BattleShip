@@ -1,5 +1,8 @@
 package view;
 
+import com.sun.xml.internal.ws.api.message.Message;
+import logic.MessageManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,12 +12,13 @@ import java.util.List;
  * Created by amir on 7/6/17.
  */
 public class ConnectionWaitList extends JFrame {
-    List<JPanel> panelList = new ArrayList<>();
+    List<ConnectionRequestPanel> panelList = new ArrayList<>();
     JPanel mainPanel;
     JLabel message;
     JScrollPane scrollPane;
     int y;
-    public ConnectionWaitList(){
+    MessageManager messageManager;
+    public ConnectionWaitList(MessageManager messageManager){
         {
             setSize(220, 600);
             setResizable(false);
@@ -36,6 +40,7 @@ public class ConnectionWaitList extends JFrame {
         getContentPane().add(scrollPane);
         revalidate();
         paintList();
+        this.messageManager = messageManager;
         setVisible(true);
     }
     public void addPanel(String name , String ip){
@@ -63,5 +68,15 @@ public class ConnectionWaitList extends JFrame {
         }
         revalidate();
         repaint();
+    }
+    public MessageManager getMessageManager(){
+        return messageManager;
+    }
+    public void rejectAll(ConnectionRequestPanel except){
+        for(ConnectionRequestPanel c:panelList){
+            if(!c.equals(except)){
+                c.reject();
+            }
+        }
     }
 }
