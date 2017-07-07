@@ -14,25 +14,34 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
     private ServerSocketHandler serverSocketHandler;
     private List<NetworkHandler> networkHandlerList;
     private ConnectionWaitList connectionWaitList;
-    public MessageManager(int port , ConnectionWaitList connectionWaitList){
+    public MessageManager(int port , ConnectionWaitList connectionWaitList , String name){
         networkHandlerList = new ArrayList<>();
-        serverSocketHandler = new ServerSocketHandler(port, this, this);
+        serverSocketHandler = new ServerSocketHandler(port, this, this , name);
         this.connectionWaitList = connectionWaitList;
     }
-    public MessageManager(String ip, int port) throws IOException{
+    public MessageManager(String ip, int port , String name) throws IOException{
         networkHandlerList = new ArrayList<>();
         Socket socket = new Socket(ip , port);
-        networkHandlerList.add(new NetworkHandler(socket , this));
+        networkHandlerList.add(new NetworkHandler(socket , this , name));
     }
     @Override
     public void onNewConnectionReceived(NetworkHandler networkHandler) {
         networkHandlerList.add(networkHandler);
-        connectionWaitList.addPanel(networkHandler.getPlayer().getName() , ""+networkHandler.getPlayer().getIP());
     }
 
     @Override
-    public void onMessageReceived(BaseMessage baseMessage) {
-
+    public void onMessageReceived(BaseMessage baseMessage , NetworkHandler networkHandler) {
+        switch (baseMessage.getMessageType()){
+            case MessageTypes.GREETING:{
+                if(serverSocketHandler != null){
+                    GreetingMessage m = (GreetingMessage)baseMessage;
+                    m.deserialize();
+                    connectionWaitList.addPanel(m.getName() ,
+                            ""+networkHandler.getRemoteAddress());
+                }
+                break;
+            }
+        }
     }
 
     @Override

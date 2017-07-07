@@ -1,11 +1,15 @@
 package view;
 
 import logic.MessageManager;
+import logic.Player;
 import logic.ServerSocketHandler;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 
 /**
  * Created by amir on 7/4/17.
@@ -82,12 +86,12 @@ public class SelectConnectionMode extends JFrame {
                     switch (connectionType) {
                         case HOST:{
                             dispose();
-                            new MessageManager(Integer.parseInt(hostPort.getText()) , new ConnectionWaitList());
+                            new MessageManager(Integer.parseInt(hostPort.getText()) , new ConnectionWaitList() , name.getText());
                             break;
                         }
                         case CLIENT:{
                             dispose();
-                            new PleaseWait(hostIP.getText() , Integer.parseInt(guestPort.getText()));
+                            new PleaseWait(hostIP.getText() , Integer.parseInt(guestPort.getText()) , name.getText());
                             break;
                         }
                     }

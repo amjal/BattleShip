@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.nio.ByteBuffer;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -17,48 +19,72 @@ public class NetworkHandler extends Thread {
     private boolean go = true;
     private Queue<byte[]> sendQueue;
     private Queue<byte[]> receivedQueue;
-    private ReceivedMessageConsumer mConsumerThread;
+    private ReceivedMessageConsumer consumerThread;
     private INetworkHandlerCallback iNetworkHandlerCallback;
-    private Player player;
+    private SocketAddress remoteAddress;
     public NetworkHandler(SocketAddress socketAddress , INetworkHandlerCallback iNetworkHandlerCAllback){
 
     }
-    public NetworkHandler(Socket socket, INetworkHandlerCallback iNetworkHandlerCAllback){
+    public NetworkHandler(Socket socket, INetworkHandlerCallback iNetworkHandlerCAllback , String name){
         mTCPChannel = new TCPChannel(socket);
-        player = new Player(socket.getRemoteSocketAddress() , "");
+        sendQueue = new PriorityQueue<>();
+        receivedQueue = new PriorityQueue<>();
         this.iNetworkHandlerCallback = iNetworkHandlerCAllback;
+        sendMessage(new GreetingMessage(name));
+        consumerThread = new ReceivedMessageConsumer();
+        remoteAddress = mTCPChannel.getRemoteAddress();
+        start();
     }
     public void sendMessage(BaseMessage baseMessage){
+        baseMessage.serialize();
         sendQueue.add(baseMessage.getSerialized());
     }
     @Override
     public void run(){
         while(go && mTCPChannel.isConnected()){
             for(int i =0 ; i < sendQueue.size() ; i ++) {
+                /*for(int j =0 ; j < sendQueue.peek().length ; j++){
+                    System.out.print(sendQueue.peek()[j]);
+                }*/
+                System.out.println();
                 mTCPChannel.write(sendQueue.poll());
             }
             byte[] buffer;
-            do{
-                buffer = readChannel();
+            int size = getIncomeMessageSize();
+            if(size > 0){
+                buffer = readChannel(size -4);
                 receivedQueue.add(buffer);
-            }while(buffer[3] != 0);
+                consumerThread.start();
+            }
         }
     }
     public void stopSelf(){
         go = false;
     }
-    private byte[] readChannel(){
-        return mTCPChannel.read(4);
+    private byte[] readChannel(int count){
+        return mTCPChannel.read(count);
+    }
+    private int getIncomeMessageSize(){
+        return ByteBuffer.wrap(mTCPChannel.read(4)).getInt();
     }
     private class ReceivedMessageConsumer extends Thread{
         @Override
         public void run(){
-            for(int i =0 ; i < receivedQueue.size() ; i++){
-                //iNetworkHandlerCallback.onMessageReceived();
+            while (receivedQueue.size()>0){
+                switch (receivedQueue.peek()[0]){
+                    case MessageTypes.GREETING: {
+                        /*for(int i =0 ; i < receivedQueue.peek().length ; i ++){
+                            System.out.print(receivedQueue.peek()[i]);
+                        }*/
+                        iNetworkHandlerCallback.onMessageReceived(new GreetingMessage(receivedQueue.poll()) ,
+                                NetworkHandler.this);
+                        break;
+                    }
+                }
             }
         }
     }
-    public Player getPlayer(){
-        return player;
+    public SocketAddress getRemoteAddress(){
+        return remoteAddress;
     }
 }

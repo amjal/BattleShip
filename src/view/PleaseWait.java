@@ -15,7 +15,7 @@ public class PleaseWait extends JFrame{
     private JPanel panel1;
     private JLabel message;
 
-    public PleaseWait(String ip , int port) {
+    public PleaseWait(String ip , int port , String name) {
         setSize(300, 100);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -32,14 +32,14 @@ public class PleaseWait extends JFrame{
             public void run() {
                 while(true) {
                     try {
-                        new MessageManager(ip, port);
+                        new MessageManager(ip, port , name);
                         break;
                     } catch (IOException e) {
-                        System.out.println("ok");
                     }
                 }
-                dispose();
-                new GameFrame();
+                //TODO wait for server accept now
+                //dispose();
+                //new GameFrame();
             }
         });
         t.start();

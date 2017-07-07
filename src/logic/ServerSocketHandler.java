@@ -13,11 +13,13 @@ public class ServerSocketHandler extends  Thread{
     int port;
     INetworkHandlerCallback iNetworkHandlerCallback;
     IServerSocketHandlerCallback iServerSocketHandlerCallback;
+    String name;
     public ServerSocketHandler(int port, INetworkHandlerCallback iNetworkHandlerCallback,
-                               IServerSocketHandlerCallback iServerSocketHandlerCallback){
+                               IServerSocketHandlerCallback iServerSocketHandlerCallback , String name){
         this.port = port;
         this.iNetworkHandlerCallback = iNetworkHandlerCallback;
         this.iServerSocketHandlerCallback = iServerSocketHandlerCallback;
+        this.name = name;
         start();
     }
     @Override
@@ -34,7 +36,7 @@ public class ServerSocketHandler extends  Thread{
             try {
                 Socket s = serverSocket.accept();
                 System.out.println("client connected!");
-                iServerSocketHandlerCallback.onNewConnectionReceived(new NetworkHandler(s, iNetworkHandlerCallback));
+                iServerSocketHandlerCallback.onNewConnectionReceived(new NetworkHandler(s , iNetworkHandlerCallback , name));
             } catch (IOException e) {
                 e.printStackTrace();
             }

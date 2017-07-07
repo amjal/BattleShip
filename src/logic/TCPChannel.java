@@ -38,6 +38,7 @@ public class TCPChannel {
     public void write(byte[] data){
         try {
             outputStream.write(data);
+            outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
