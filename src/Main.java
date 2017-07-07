@@ -1,4 +1,5 @@
 
+import view.GameFrame;
 import view.SelectConnectionMode;
 
 import java.net.InetAddress;
@@ -9,6 +10,8 @@ import java.net.UnknownHostException;
  */
 public class Main {
     public static void main(String[] args) {
-       new SelectConnectionMode();
+      // new SelectConnectionMode();
+        GameFrame gameFrame= new GameFrame();
+
     }
 }

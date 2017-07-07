@@ -114,6 +114,7 @@ public class SelectConnectionMode extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+
             }
         });
     }

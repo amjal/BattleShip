@@ -5,4 +5,5 @@ package logic;
  */
 public class MessageTypes {
     public static final byte GREETING = 1;
+    public static  final  byte CHAT=2;
 }
