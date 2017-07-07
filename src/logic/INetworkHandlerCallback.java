@@ -7,6 +7,6 @@ import java.net.SocketAddress;
  */
 public interface INetworkHandlerCallback{
     void onMessageReceived(BaseMessage baseMessage , NetworkHandler networkHandler);
-    void onMessageSent(BaseMessage baseMessage );
+    void onSendMessage(BaseMessage baseMessage );
     void onSocketClosed();
 }

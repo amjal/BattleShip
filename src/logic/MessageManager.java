@@ -16,6 +16,7 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
     private List<NetworkHandler> networkHandlerList;
     ConnectionWaitList connectionWaitList;
     RequestAnswerListener ral;
+    ChatListener cl;
     public MessageManager(int port , String name){
         networkHandlerList = new ArrayList<>();
         serverSocketHandler = new ServerSocketHandler(port, this, this , name);
@@ -73,13 +74,20 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
                     networkHandlerList.remove(networkHandler);
                     ral.onReject();
                 }
+                break;
+            }
+            case MessageTypes.CHAT:{
+                ChatMessage m = (ChatMessage)baseMessage;
+                m.deserialize();
+                cl.onChatReceived(m.getText());
+                break;
             }
         }
     }
 
     @Override
-    public void onMessageSent(BaseMessage baseMessage) {
-
+    public void onSendMessage(BaseMessage baseMessage) {
+        networkHandlerList.get(0).sendMessage(baseMessage);
     }
 
     @Override
@@ -88,5 +96,8 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
     }
     public void addRequestAnswerListener(RequestAnswerListener ral){
         this.ral = ral;
+    }
+    public void addChatListener(ChatListener cl){
+        this.cl = cl;
     }
 }

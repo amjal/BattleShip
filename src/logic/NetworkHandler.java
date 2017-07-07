@@ -64,6 +64,11 @@ public class NetworkHandler{
                                     NetworkHandler.this);
                             break;
                         }
+                        case MessageTypes.CHAT:{
+                           iNetworkHandlerCallback.onMessageReceived(new ChatMessage(receivedQueue.poll()),
+                                   NetworkHandler.this);
+                            break;
+                        }
                     }
                 }
                 try {

@@ -15,6 +15,7 @@ public class PleaseWait extends JFrame implements RequestAnswerListener {
     private JButton cancelButton;
     private JPanel panel1;
     private JLabel message;
+    MessageManager messageManager;
 
     public PleaseWait(String ip , int port , String name) {
         setSize(300, 100);
@@ -33,8 +34,8 @@ public class PleaseWait extends JFrame implements RequestAnswerListener {
             public void run() {
                 while(true) {
                     try {
-                        MessageManager m = new MessageManager(ip, port , name);
-                        m.addRequestAnswerListener(PleaseWait.this);
+                        messageManager = new MessageManager(ip, port , name);
+                        messageManager.addRequestAnswerListener(PleaseWait.this);
                         break;
                     } catch (IOException e) {
                     }
@@ -52,7 +53,7 @@ public class PleaseWait extends JFrame implements RequestAnswerListener {
 
     @Override
     public void onAccept() {
-        new GameFrame();
+        new GameFrame(messageManager);
         dispose();
     }
 }

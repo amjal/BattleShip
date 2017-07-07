@@ -62,7 +62,10 @@
             <children>
               <component id="29ce9" class="javax.swing.JTextArea" binding="chatArea">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <editable value="false"/>
+                  <enabled value="true"/>
+                </properties>
               </component>
             </children>
           </scrollpane>

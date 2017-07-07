@@ -1,5 +1,7 @@
 package view;
 
+import logic.MessageManager;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -9,11 +11,11 @@ import java.awt.*;
  */
 public class GameFrame extends JFrame {
 
-    public GameFrame() {
+    public GameFrame(MessageManager messageManager) {
         super("battle ship");
         setSize(1000, 700);
         setDefaultCloseOperation(3);
-        GamePanel gamePanel = new GamePanel();
+        GamePanel gamePanel = new GamePanel(messageManager);
         add(gamePanel.getFullPanel());
         setVisible(true);
     }

@@ -23,7 +23,7 @@ public class ConnectionRequestPanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 container.getMessageManager().onRequestAccepted(ip);
                 container.rejectAll(ConnectionRequestPanel.this);
-                new GameFrame();
+                new GameFrame(container.getMessageManager());
                 container.dispose();
             }
         });
