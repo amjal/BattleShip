@@ -3,6 +3,7 @@ package logic;
 import view.ConnectionWaitList;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
     }
     public MessageManager(String ip, int port , String name) throws IOException{
         networkHandlerList = new ArrayList<>();
-        Socket socket = new Socket(ip , port);
+        Socket socket = new Socket(InetAddress.getByName(ip), port);
         networkHandlerList.add(new NetworkHandler(socket , this , name));
     }
     @Override
