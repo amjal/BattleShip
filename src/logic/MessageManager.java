@@ -1,6 +1,7 @@
 package logic;
 
 import view.ConnectionWaitList;
+import view.Player;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -39,6 +40,7 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
                 n.sendMessage(new RequestAnswerMessage(true));
             }
         }
+        serverSocketHandler.stopSelf();
     }
 
     @Override
@@ -55,9 +57,9 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
     public void onMessageReceived(BaseMessage baseMessage , NetworkHandler networkHandler) {
         switch (baseMessage.getMessageType()){
             case MessageTypes.GREETING:{
+                GreetingMessage m = (GreetingMessage)baseMessage;
+                m.deserialize();
                 if(serverSocketHandler != null){
-                    GreetingMessage m = (GreetingMessage)baseMessage;
-                    m.deserialize();
                     connectionWaitList.addPanel(m.getName() ,
                             ""+networkHandler.getRemoteAddress());
                 }

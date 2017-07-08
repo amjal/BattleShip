@@ -1,7 +1,6 @@
 package view;
 
 import logic.MessageManager;
-import logic.Player;
 import logic.RequestAnswerListener;
 
 import javax.swing.*;
@@ -55,7 +54,12 @@ public class PleaseWait extends JFrame implements RequestAnswerListener {
 
     @Override
     public void onAccept() {
-        new GameFrame(messageManager ,new Player(name));
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new GameFrame(messageManager ,new Player(name));
+            }
+        });
         dispose();
     }
 }

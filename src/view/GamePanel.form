@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GamePanel">
   <splitpane id="de15a" binding="splitPane1" default-binding="true">
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="604" height="400"/>
     </constraints>
     <properties>
       <dividerLocation value="500"/>
@@ -34,7 +34,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="400fa" class="javax.swing.JButton" binding="button1" default-binding="true">
+          <component id="400fa" class="javax.swing.JButton" binding="sendButton">
             <constraints>
               <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <forms/>
@@ -71,7 +71,7 @@
           </scrollpane>
         </children>
       </grid>
-      <grid id="343d8" layout-manager="FormLayout">
+      <grid id="343d8" binding="leftPanel" layout-manager="FormLayout">
         <rowspec value="center:d:grow"/>
         <rowspec value="top:3dlu:noGrow"/>
         <rowspec value="center:max(d;4px):noGrow"/>
@@ -91,7 +91,7 @@
               <forms defaultalign-vert="false"/>
             </constraints>
             <properties>
-              <background color="-6367233"/>
+              <background color="-5636609"/>
               <enabled value="false"/>
               <preferredSize width="500" height="500"/>
             </properties>
@@ -110,8 +110,9 @@
             <rowspec value="center:max(d;4px):noGrow"/>
             <rowspec value="top:3dlu:noGrow"/>
             <rowspec value="center:max(d;4px):noGrow"/>
-            <colspec value="fill:d:grow"/>
+            <colspec value="fill:191px:grow"/>
             <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:max(d;4px):noGrow"/>
             <colspec value="fill:max(d;4px):noGrow"/>
             <colspec value="left:4dlu:noGrow"/>
             <colspec value="fill:max(d;4px):noGrow"/>
@@ -124,7 +125,7 @@
             <children>
               <component id="bd234" class="javax.swing.JLabel" binding="size4Ship">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <forms defaultalign-horz="false"/>
                 </constraints>
                 <properties>
@@ -138,17 +139,17 @@
               </component>
               <component id="6aa73" class="javax.swing.JLabel" binding="size4ShipN">
                 <constraints>
-                  <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <forms/>
                 </constraints>
                 <properties>
                   <horizontalAlignment value="0"/>
-                  <text value="4"/>
+                  <text value="1"/>
                 </properties>
               </component>
               <component id="9bba2" class="javax.swing.JLabel" binding="size3Ship">
                 <constraints>
-                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <forms defaultalign-horz="false"/>
                 </constraints>
                 <properties>
@@ -164,18 +165,18 @@
               </component>
               <component id="30785" class="javax.swing.JLabel" binding="size3ShipN">
                 <constraints>
-                  <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <forms/>
                 </constraints>
                 <properties>
                   <horizontalAlignment value="0"/>
                   <horizontalTextPosition value="0"/>
-                  <text value="3"/>
+                  <text value="2"/>
                 </properties>
               </component>
               <component id="95c68" class="javax.swing.JLabel" binding="size2Ship">
                 <constraints>
-                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="6" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <forms defaultalign-horz="false"/>
                 </constraints>
                 <properties>
@@ -190,18 +191,18 @@
               </component>
               <component id="1668a" class="javax.swing.JLabel" binding="size2ShipN">
                 <constraints>
-                  <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="6" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                   <forms defaultalign-horz="false"/>
                 </constraints>
                 <properties>
                   <horizontalAlignment value="0"/>
                   <horizontalTextPosition value="0"/>
-                  <text value="2"/>
+                  <text value="3"/>
                 </properties>
               </component>
               <component id="8e5ad" class="javax.swing.JLabel" binding="size1Ship">
                 <constraints>
-                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <forms defaultalign-horz="false"/>
                 </constraints>
                 <properties>
@@ -216,31 +217,36 @@
               </component>
               <component id="ce" class="javax.swing.JLabel" binding="size1ShipN">
                 <constraints>
-                  <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <forms/>
                 </constraints>
                 <properties>
                   <doubleBuffered value="true"/>
-                  <text value="1"/>
+                  <text value="4"/>
                 </properties>
               </component>
               <component id="d4eb4" class="javax.swing.JButton" binding="readyButton">
                 <constraints>
-                  <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="10" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <forms defaultalign-horz="false"/>
                 </constraints>
                 <properties>
-                  <preferredSize width="50" height="32"/>
-                  <text value="Button"/>
+                  <maximumSize width="50" height="40"/>
+                  <minimumSize width="100" height="40"/>
+                  <preferredSize width="100" height="40"/>
+                  <text value="ready"/>
                 </properties>
               </component>
               <component id="ce217" class="javax.swing.JButton" binding="resetButton">
                 <constraints>
-                  <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <forms/>
+                  <grid row="10" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms defaultalign-horz="false"/>
                 </constraints>
                 <properties>
-                  <text value="Button"/>
+                  <maximumSize width="90" height="40"/>
+                  <minimumSize width="90" height="40"/>
+                  <preferredSize width="90" height="40"/>
+                  <text value="reset"/>
                 </properties>
               </component>
             </children>

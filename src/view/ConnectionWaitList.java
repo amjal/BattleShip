@@ -1,8 +1,6 @@
 package view;
 
-import com.sun.xml.internal.ws.api.message.Message;
 import logic.MessageManager;
-import logic.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -83,6 +81,11 @@ public class ConnectionWaitList extends JFrame {
         }
     }
     public void makeFrame(){
-        new GameFrame(messageManager ,player);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new GameFrame(messageManager ,player);
+            }
+        });
     }
 }

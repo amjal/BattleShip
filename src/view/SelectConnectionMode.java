@@ -1,15 +1,10 @@
 package view;
 
 import logic.MessageManager;
-import logic.Player;
-import logic.ServerSocketHandler;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.UnknownHostException;
 
 /**
  * Created by amir on 7/4/17.

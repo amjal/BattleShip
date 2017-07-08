@@ -71,10 +71,12 @@ public class NetworkHandler{
                         }
                     }
                 }
-                try {
-                    sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                else {
+                    try {
+                        sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -88,10 +90,12 @@ public class NetworkHandler{
             while(go && mTCPChannel.isConnected()) {
                 if(sendQueue.size() >0)
                     mTCPChannel.write(sendQueue.poll());
-                try {
-                    sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                else {
+                    try {
+                        sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -108,6 +112,12 @@ public class NetworkHandler{
                 if(size > 0){
                     buffer = readChannel(size -4);
                     receivedQueue.add(buffer);
+                }else{
+                    try {
+                        sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

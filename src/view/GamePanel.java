@@ -1,21 +1,15 @@
 package view;
 
-import com.sun.xml.internal.ws.api.message.Message;
 import logic.*;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 /**
  * Created by parsa on 7/5/17.
  */
-public class GamePanel extends JPanel implements ChatListener{
-    private JButton button1;
+public class GamePanel extends JPanel implements ChatListener , ShipReducedListener , GameMessageListener {
+    private JButton sendButton;
     private JTextField chatMessageField;
     private JSplitPane splitPane1;
     private JPanel gamePlace;
@@ -32,41 +26,107 @@ public class GamePanel extends JPanel implements ChatListener{
     private JButton resetButton;
     private JLabel chatName;
     private JTextArea chatArea;
+    private JPanel leftPanel;
     MessageManager messageManager;
-
-    public GamePanel(MessageManager messageManager , Player player) {
+    Player me;
+    Player enemy;
+    Player currentPlayer;
+    public GamePanel(MessageManager messageManager , Player me) {
         this.messageManager = messageManager;
+        this.me = me;
+        enemy = new Player();
+        me.setPlayerType(PlayerType.ME);
         messageManager.addChatListener(this);
-        button1.addActionListener(new ActionListener() {
+        sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                messageManager.onSendMessage(new ChatMessage(player.getName() + ": " + chatMessageField.getText()));
+                messageManager.onSendMessage(new ChatMessage(me.getName() + ": " + chatMessageField.getText()));
+                chatArea.append(me.getName() + ": " + chatMessageField.getText()+"\n");
                 chatMessageField.setText("");
             }
         });
-        player.setGamePlace(gamePlace);
+        currentPlayer = me;
+        currentPlayer.getGamePlace(gamePlace);
+        currentPlayer.addShipReducedListener(this);
+        myTableInit();
     }
-    public JSplitPane getFullPanel() {
+    void myTableInit(){
+        size1Ship.addMouseListener(new ShipDragHandler(1));
+        size2Ship.addMouseListener(new ShipDragHandler(2));
+        size3Ship.addMouseListener(new ShipDragHandler(3));
+        size4Ship.addMouseListener(new ShipDragHandler(4));
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                currentPlayer.reset();
+                currentPlayer.setSelectedShipSize(0);
+                size1ShipN.setText(4+"");
+                size2ShipN.setText(3+"");
+                size3ShipN.setText(2+"");
+                size4ShipN.setText(1+"");
+            }
+        });
+        readyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if(size4ShipN.getText().equals("0") && size3ShipN.getText().equals("0") &&
+                        size2ShipN.getText().equals("0") && size1ShipN.getText().equals("0"))
+                    messageManager.onSendMessage(new GameMessage(me.getCellStates()));
+            }
+        });
+    }
+    public JSplitPane getFullPanel(){
         return splitPane1;
     }
-
-
-    public void setGamePlace(JPanel gamePlace) {
-        this.gamePlace = gamePlace;
-    }
-
-    public JPanel getGamePlace() {
-        return gamePlace;
-    }
-
-    public void setButton1(String string) {
-        button1.setText(string);
-    }
-
-
     @Override
     public void onChatReceived(String text) {
         chatArea.append(text+"\n");
 
+    }
+
+    @Override
+    public void shipReduced(int size) {
+        switch (size){
+            case 1:{
+                size1ShipN.setText((Integer.parseInt(size1ShipN.getText())-1)+"");
+                break;
+            }
+            case 2:{
+                size2ShipN.setText((Integer.parseInt(size2ShipN.getText())-1)+"");
+                break;
+            }
+            case 3:{
+                size3ShipN.setText((Integer.parseInt(size3ShipN.getText())-1)+"");
+                break;
+            }
+            case 4:{
+                size4ShipN.setText((Integer.parseInt(size4ShipN.getText())-1)+"");
+                break;
+            }
+
+        }
+    }
+
+    @Override
+    public void onGameMessageReceived(CellState[][] states) {
+        enemy.setPlayerType(PlayerType.ENEMY);
+        enemy.setCellsStates(states);
+    }
+
+    class ShipDragHandler extends MouseAdapter{
+        int size;
+        public ShipDragHandler(int size){
+            this.size = size;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent mouseEvent) {
+            super.mouseClicked(mouseEvent);
+           if(currentPlayer.getSelectedShipSize() == size){
+               currentPlayer.setSelectedShipSize(0);
+           }
+           else
+               currentPlayer.setSelectedShipSize(size);
+        }
     }
 }

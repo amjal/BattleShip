@@ -14,6 +14,7 @@ public class ServerSocketHandler extends  Thread{
     INetworkHandlerCallback iNetworkHandlerCallback;
     IServerSocketHandlerCallback iServerSocketHandlerCallback;
     String name;
+    boolean lookingForConnection = true;
     public ServerSocketHandler(int port, INetworkHandlerCallback iNetworkHandlerCallback,
                                IServerSocketHandlerCallback iServerSocketHandlerCallback , String name){
         this.port = port;
@@ -31,7 +32,7 @@ public class ServerSocketHandler extends  Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        while(true) {
+        while(lookingForConnection) {
             try {
                 Socket s = serverSocket.accept();
                 System.out.println("client connected!");
@@ -41,5 +42,8 @@ public class ServerSocketHandler extends  Thread{
             }
         }
 
+    }
+    public void stopSelf(){
+        lookingForConnection = false;
     }
 }
