@@ -13,6 +13,7 @@ public class Cell extends JLabel {
     //1-> miss
     //2->ship
     //3->water
+
  public    int status;
 
 

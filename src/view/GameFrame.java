@@ -18,6 +18,7 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(3);
         GamePanel gamePanel = new GamePanel(messageManager , player);
         add(gamePanel.getFullPanel());
+
         setVisible(true);
     }
 

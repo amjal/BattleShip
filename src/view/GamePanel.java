@@ -33,9 +33,10 @@ public class GamePanel extends JPanel implements ChatListener{
     private JLabel chatName;
     private JTextArea chatArea;
     MessageManager messageManager;
-
+    Player player;
     public GamePanel(MessageManager messageManager , Player player) {
         this.messageManager = messageManager;
+        this.player = player;
         messageManager.addChatListener(this);
         button1.addActionListener(new ActionListener() {
             @Override
@@ -44,7 +45,9 @@ public class GamePanel extends JPanel implements ChatListener{
                 chatMessageField.setText("");
             }
         });
-        player.setGamePlace(gamePlace);
+        add(gamePlace);
+        gamePlace.add(player.gamePlace);
+        repaint();
     }
     public JSplitPane getFullPanel() {
         return splitPane1;
@@ -68,5 +71,10 @@ public class GamePanel extends JPanel implements ChatListener{
     public void onChatReceived(String text) {
         chatArea.append(text+"\n");
 
+    }
+
+    private void createUIComponents() {
+        gamePlace = new JPanel();
+        gamePlace.add(player.gamePlace);
     }
 }
