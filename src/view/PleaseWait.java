@@ -1,6 +1,7 @@
 package view;
 
 import logic.MessageManager;
+import logic.Player;
 import logic.RequestAnswerListener;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ public class PleaseWait extends JFrame implements RequestAnswerListener {
     private JPanel panel1;
     private JLabel message;
     MessageManager messageManager;
-
+    private String name;
     public PleaseWait(String ip , int port , String name) {
         setSize(300, 100);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,6 +44,7 @@ public class PleaseWait extends JFrame implements RequestAnswerListener {
                 message.setText("found host! waiting to be accepted...");
             }
         });
+        this.name = name;
         t.start();
     }
 
@@ -53,7 +55,7 @@ public class PleaseWait extends JFrame implements RequestAnswerListener {
 
     @Override
     public void onAccept() {
-        new GameFrame(messageManager);
+        new GameFrame(messageManager ,new Player(name));
         dispose();
     }
 }

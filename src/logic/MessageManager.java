@@ -20,7 +20,7 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
     public MessageManager(int port , String name){
         networkHandlerList = new ArrayList<>();
         serverSocketHandler = new ServerSocketHandler(port, this, this , name);
-        connectionWaitList = new ConnectionWaitList(this);
+        connectionWaitList = new ConnectionWaitList(this , new Player(name));
     }
     public MessageManager(String ip, int port , String name) throws IOException{
         Socket socket = new Socket(InetAddress.getByName(ip), port);

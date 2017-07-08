@@ -1,10 +1,7 @@
 package view;
 
 import com.sun.xml.internal.ws.api.message.Message;
-import logic.Cell;
-import logic.ChatListener;
-import logic.ChatMessage;
-import logic.MessageManager;
+import logic.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -17,7 +14,7 @@ import java.awt.event.MouseEvent;
 /**
  * Created by parsa on 7/5/17.
  */
-public class GamePanel implements ChatListener{
+public class GamePanel extends JPanel implements ChatListener{
     private JButton button1;
     private JTextField chatMessageField;
     private JSplitPane splitPane1;
@@ -37,18 +34,18 @@ public class GamePanel implements ChatListener{
     private JTextArea chatArea;
     MessageManager messageManager;
 
-    public GamePanel(MessageManager messageManager){
+    public GamePanel(MessageManager messageManager , Player player) {
         this.messageManager = messageManager;
         messageManager.addChatListener(this);
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                messageManager.onSendMessage(new ChatMessage(chatMessageField.getText()));
+                messageManager.onSendMessage(new ChatMessage(player.getName() + ": " + chatMessageField.getText()));
                 chatMessageField.setText("");
             }
         });
+        player.setGamePlace(gamePlace);
     }
-
     public JSplitPane getFullPanel() {
         return splitPane1;
     }

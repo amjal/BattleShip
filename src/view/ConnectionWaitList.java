@@ -2,6 +2,7 @@ package view;
 
 import com.sun.xml.internal.ws.api.message.Message;
 import logic.MessageManager;
+import logic.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +18,9 @@ public class ConnectionWaitList extends JFrame {
     JLabel message;
     JScrollPane scrollPane;
     int y;
+    Player player;
     MessageManager messageManager;
-    public ConnectionWaitList(MessageManager messageManager){
+    public ConnectionWaitList(MessageManager messageManager , Player player){
         {
             setSize(220, 600);
             setResizable(false);
@@ -41,6 +43,7 @@ public class ConnectionWaitList extends JFrame {
         revalidate();
         paintList();
         this.messageManager = messageManager;
+        this.player = player;
         setVisible(true);
     }
     public void addPanel(String name , String ip){
@@ -78,5 +81,8 @@ public class ConnectionWaitList extends JFrame {
                 c.reject();
             }
         }
+    }
+    public void makeFrame(){
+        new GameFrame(messageManager ,player);
     }
 }

@@ -1,5 +1,7 @@
 package view;
 
+import logic.Player;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +25,7 @@ public class ConnectionRequestPanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 container.getMessageManager().onRequestAccepted(ip);
                 container.rejectAll(ConnectionRequestPanel.this);
-                new GameFrame(container.getMessageManager());
+                container.makeFrame();
                 container.dispose();
             }
         });
