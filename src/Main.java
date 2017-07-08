@@ -5,6 +5,7 @@ import view.GameFrame;
 import view.SelectConnectionMode;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -16,5 +17,12 @@ public class Main {
 
         //new SelectConnectionMode();
         FileManager fileManager = new FileManager("hello \n whats \n up");
+        try {
+            String str  =fileManager.readFile("file.txt");
+            System.out.println(str);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
