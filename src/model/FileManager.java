@@ -1,9 +1,14 @@
 package model;
 
 import jdk.nashorn.api.scripting.JSObject;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import view.ChatHistoryContainer;
+import view.ChatHistoryPreview;
+
 import java.io.FileReader;
+import java.text.ParseException;
 import java.util.Iterator;
 import java.io.*;
 import java.text.DateFormat;
@@ -86,10 +91,29 @@ public class FileManager {
 
 
     }
-    public void readFromJsonfile(){
-        JSONArray jsonArray =new JSONArray("chatHistory");
+    public JSONArray readFromJsonfile(){
+
+String str;
+JSONArray jsonArray=null;
+        try {
+            str=new String(readFile(("chatHistory.JSON")));
+            JSONObject jsonObject =new JSONObject(str);
+            jsonArray=jsonObject.getJSONArray("chat history");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
+        return jsonArray;
+    }
+    public void loadHistory(){
+      JSONArray jsonArray  =readFromJsonfile();
+        ChatHistoryContainer chatHistoryContainer =new ChatHistoryContainer();
+        for(int i=jsonArray.length()-1;i>=0;i--){
+            ChatHistoryPreview chatHistoryPreview=new ChatHistoryPreview(jsonArray.getJSONObject(i));
+            chatHistoryContainer.addPanel(chatHistoryPreview);
+
+        }
     }
 
 
