@@ -14,15 +14,24 @@ import java.net.UnknownHostException;
  */
 public class Main {
     public static void main(String[] args) {
+//        try {
+//            System.out.println(InetAddress.getLocalHost());
+//        } catch (UnknownHostException e) {
+//            e.printStackTrace();
+//        }
+//        new SelectConnectionMode();
+FileManager fileManager=new FileManager();
+fileManager.addToJsonObject("hello\nmy namy is\nparsa");
+        //FileManager fileManager = new FileManager("hello \n whats \n up");
+        // try {
+        //String str  =fileManager.readFile("file.txt");
+        //System.out.println(str);
 
-        //new SelectConnectionMode();
-        FileManager fileManager = new FileManager("hello \n whats \n up");
-        try {
-            String str  =fileManager.readFile("file.txt");
-            System.out.println(str);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+       // FileManager fileManager = new FileManager();
+        //fileManager.makeJsonObject("nigga", "4:20");
 
     }
 }
