@@ -102,7 +102,7 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
             case MessageTypes.GAME_FINISHED:{
                 GameFinishedMessage m = (GameFinishedMessage)baseMessage;
                 m.deserialize();
-                gfml.onGameFinishedMessageReceived(m.getName());
+                gfml.onGameFinishedMessageReceived(m.getName() , m.hasLeft());
                 break;
             }
         }

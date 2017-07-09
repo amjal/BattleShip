@@ -172,14 +172,18 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
     }
 
     @Override
-    public void onGameFinished() {
-        messageManager.onSendMessage(new GameFinishedMessage(me.getName()));
-        chatArea.append("***"+me.getName()+" WON!***");
+    public void onGameFinished(boolean left) {
+        messageManager.onSendMessage(new GameFinishedMessage(me.getName() , left));
+        if(!left)
+            chatArea.append("***"+me.getName()+" WON!***");
     }
 
     @Override
-    public void onGameFinishedMessageReceived(String name) {
-        chatArea.append("***"+name+" WON!***\n");
+    public void onGameFinishedMessageReceived(String name , boolean left) {
+        if(left){
+            chatArea.append("***"+name+" LEFT THE GAME***");
+        }
+        else chatArea.append("***"+name+" WON!***\n");
     }
 
     class ShipDragHandler extends MouseAdapter{

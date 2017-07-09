@@ -149,7 +149,7 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener{
             }
             cell.paintCell();
             if(hitCount == 20) {
-                gameFinishedListener.onGameFinished();
+                gameFinishedListener.onGameFinished(false);
                 hitCount++;
             }
             else if(hitCount <20 && b) moveMadeListener.onMoveMade(cell);

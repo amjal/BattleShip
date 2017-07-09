@@ -14,8 +14,8 @@ public class GameFrame extends JFrame {
     GamePanel gamePanel;
     public GameFrame(MessageManager messageManager , Player me) {
         super(me.getName());
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 700);
-        setDefaultCloseOperation(3);
         gamePanel = new GamePanel(messageManager , me);
         add(gamePanel.getFullPanel());
         JMenuBar jMenuBar =new JMenuBar();
@@ -46,6 +46,14 @@ public class GameFrame extends JFrame {
         });
         setVisible(true);
     }
-
-
+    @Override
+    public void dispose(){
+        gamePanel.onGameFinished(true);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.exit(0);
+    }
 }
