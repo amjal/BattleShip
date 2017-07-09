@@ -1,5 +1,5 @@
 
-import logic.Player;
+import view.Player;
 import model.FileManager;
 import view.GameFrame;
 import view.SelectConnectionMode;
@@ -14,15 +14,13 @@ import java.net.UnknownHostException;
  */
 public class Main {
     public static void main(String[] args) {
-//        try {
-//            System.out.println(InetAddress.getLocalHost());
-//        } catch (UnknownHostException e) {
-//            e.printStackTrace();
-//        }
-//        new SelectConnectionMode();
-FileManager fileManager=new FileManager();
-//fileManager.addToJsonObject("mohsen:salamm jigarammm");
-fileManager.loadHistory();
+       try {
+            System.out.println(InetAddress.getLocalHost());
+        } catch (UnknownHostException e) {
+        e.printStackTrace();
+        }
+        new SelectConnectionMode();
+
 
 
     }

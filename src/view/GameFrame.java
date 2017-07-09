@@ -15,7 +15,7 @@ public class GameFrame extends JFrame {
 String chat="chato inja bezan";
     public GameFrame(MessageManager messageManager , Player me) {
         super("battle ship");
-        setSize(1000, 700);
+        setSize(800, 700);
         setDefaultCloseOperation(3);
         GamePanel gamePanel = new GamePanel(messageManager , me);
         add(gamePanel.getFullPanel());
@@ -26,10 +26,12 @@ String chat="chato inja bezan";
 
         JMenuItem saveChat=new JMenuItem("save chat");
         JMenuItem loadCHat=new JMenuItem("load chats");
+
         jMenuBar.add(file);
         jMenuBar.add(help);
         file.add(saveChat);
         file.add(loadCHat);
+        setJMenuBar(jMenuBar);
         FileManager fileManager=new FileManager();
         saveChat.addActionListener(new ActionListener() {
             @Override
