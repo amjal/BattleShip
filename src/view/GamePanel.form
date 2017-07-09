@@ -40,7 +40,7 @@
               <forms/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="send"/>
             </properties>
           </component>
           <component id="16c1a" class="javax.swing.JLabel" binding="chatName">
