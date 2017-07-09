@@ -21,7 +21,7 @@ public class Main {
 //        }
 //        new SelectConnectionMode();
 FileManager fileManager=new FileManager();
-//fileManager.addToJsonObject("mohsen:salamm jigarammm");
+fileManager.addToJsonObject("mohsen:salamm jigarammm");
 fileManager.loadHistory();
         //FileManager fileManager = new FileManager("hello \n whats \n up");
         // try {
