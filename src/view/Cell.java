@@ -50,6 +50,9 @@ public class Cell extends JLabel implements Serializable{
         });
         paintCell();
     }
+    public Cell(){
+
+    }
     public void addCellHoveredOnListener(CellHoveredOnListener chol){
         this.chol = chol;
     }
@@ -62,7 +65,7 @@ public class Cell extends JLabel implements Serializable{
     public CellState getCellState(){
         return cellState;
     }
-    public CellType getCelltype(){
+    public CellType getCellType(){
         return celltype;
     }
     public void setState(CellState state){
@@ -97,5 +100,8 @@ public class Cell extends JLabel implements Serializable{
                 break;
             }
         }
+    }
+    public void setLocation(Point point){
+        this.location = point;
     }
 }

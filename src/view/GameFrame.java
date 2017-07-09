@@ -11,13 +11,12 @@ import java.awt.event.ActionListener;
  * Created by parsa on 7/5/17.
  */
 public class GameFrame extends JFrame {
-   // @TODO inja ye method mikham textarea ro stringesho bede
-String chat="chato inja bezan";
+    GamePanel gamePanel;
     public GameFrame(MessageManager messageManager , Player me) {
         super("battle ship");
         setSize(800, 700);
         setDefaultCloseOperation(3);
-        GamePanel gamePanel = new GamePanel(messageManager , me);
+        gamePanel = new GamePanel(messageManager , me);
         add(gamePanel.getFullPanel());
         JMenuBar jMenuBar =new JMenuBar();
 
@@ -36,8 +35,7 @@ String chat="chato inja bezan";
         saveChat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fileManager.addToJsonObject(chat);
-
+                fileManager.addToJsonObject(gamePanel.getChat());
             }
         });
         loadCHat.addActionListener(new ActionListener() {

@@ -31,8 +31,8 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener{
     public Player(String name){
         this.name = name;
     }
-    public Player(){
-
+    public Player(PlayerType playerType){
+        this.playerType = playerType;
     }
     public void cellsInit(){
         for (int i = 0; i < 10; i++) {
@@ -76,7 +76,7 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener{
     }
     @Override
     public void cellClickedOn(Cell cell, int action) {
-        if(cell.getCelltype() == CellType.ME_CELL && cell.getCellState() == CellState.HOVERED_OVER) {
+        if(cell.getCellType() == CellType.ME_CELL && cell.getCellState() == CellState.HOVERED_OVER) {
             if (action == 1)//right click on initialize
             {
                 if (currentShipDirection == SwingConstants.HORIZONTAL)
@@ -115,7 +115,7 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener{
                 }
             }
         }
-        else if (cell.getCelltype() == CellType.ENEMY_CELL){
+        else if (cell.getCellType() == CellType.ENEMY_CELL){
             if(cell.getCellState() == CellState.SHIP){
                 cell.setState(CellState.HIT);
             }
@@ -182,11 +182,12 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener{
     public int getSelectedShipSize(){
         return selectedShipSize;
     }
+    public void setCellState(Point location , CellState state){
+        cells[(int)location.getX()][(int)location.getY()].setState(state);
+        cells[(int)location.getX()][(int)location.getY()].paintCell();
+    }
     public void addShipReducedListener(ShipReducedListener shipReducedListener){
         this.shipReducedListener = shipReducedListener;
-    }
-    public PlayerType getPlayerType(){
-        return playerType;
     }
     public void setPlayerType(PlayerType playerType){
         this.playerType = playerType;

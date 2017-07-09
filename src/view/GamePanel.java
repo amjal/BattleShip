@@ -5,10 +5,13 @@ import logic.*;
 import javax.swing.*;
 import java.awt.event.*;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Created by parsa on 7/5/17.
  */
-public class GamePanel extends JPanel implements ChatListener , ShipReducedListener , ReadyMessageListener, GameMessageListener ,MoveMadeListener{
+public class GamePanel extends JPanel implements ChatListener , ShipReducedListener , ReadyMessageListener,
+        GameMessageListener ,MoveMadeListener{
     private JButton sendButton;
     private JTextField chatMessageField;
     private JSplitPane splitPane1;
@@ -34,11 +37,11 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
     public GamePanel(MessageManager messageManager , Player me) {
         this.messageManager = messageManager;
         this.me = me;
+        this.me.setPlayerType(PlayerType.ME);
         this.me.cellsInit();
-        enemy = new Player();
+        enemy = new Player(PlayerType.ENEMY);
         enemy.cellsInit();
-        me.setPlayerType(PlayerType.ME);
-        enemy.setPlayerType(PlayerType.ENEMY);
+        enemy.addMoveMadeListener(this);
         messageManager.addChatListener(this);
         messageManager.addReadyMessageListener(this);
         messageManager.addGameMessageListener(this);
@@ -79,9 +82,9 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
                     if(turn == null){// we are ready but the enemy is not so we can't show enemy's grid we have to wait
                         turn = PlayerType.ME;
                     }
-                    else if (turn == PlayerType.ENEMY)// we are ready but after the enemy so the enemy's grid is shown
+                    else if (turn == PlayerType.ENEMY)// we are ready but after the enemy so our grid is shown
                     {
-                        enemy.getGamePlace(gamePlace);
+                        me.getGamePlace(gamePlace);
                     }
                 readyButton.setEnabled(false);
                 resetButton.setEnabled(false);
@@ -136,15 +139,43 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
 
     @Override
     public void onGameMessageReceived(Cell cell) {
-
+        me.setCellState(cell.getLocation() , cell.getCellState());
+        if(cell.getCellState() == CellState.MISSED) {
+            turn = PlayerType.ME;
+            enemy.getGamePlace(gamePlace);
+        }
+        gamePlace.repaint();
     }
 
     @Override
     public void onMoveMade(Cell cell) {
         messageManager.onSendMessage(new GameMessage(cell));
-        turn = PlayerType.ENEMY;
-        me.getGamePlace(gamePlace);
+        if(cell.getCellState() == CellState.MISSED) {
+            turn = PlayerType.ENEMY;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            me.getGamePlace(gamePlace);
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
+
 
     class ShipDragHandler extends MouseAdapter{
         int size;
@@ -161,5 +192,8 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
            else
                me.setSelectedShipSize(size);
         }
+    }
+    public String getChat(){
+        return chatArea.getText();
     }
 }

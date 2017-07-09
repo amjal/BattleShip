@@ -10,5 +10,6 @@
     <orderEntry type="library" name="jgoodies" level="project" />
     <orderEntry type="library" name="jgoodies1" level="project" />
     <orderEntry type="library" name="org.json-20130603" level="project" />
+    <orderEntry type="library" name="org.json-201306031" level="project" />
   </component>
 </module>

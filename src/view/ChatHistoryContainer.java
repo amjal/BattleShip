@@ -26,7 +26,7 @@ public class ChatHistoryContainer extends JFrame {
             super("chat history");
             setSize(220, 600);
             setResizable(false);
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 
             mainPanel = new JPanel();
