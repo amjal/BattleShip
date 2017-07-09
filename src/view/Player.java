@@ -115,7 +115,9 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener{
             }
         }
         else if (cell.getCellType() == CellType.ENEMY_CELL){
+            boolean b = false;
             if(cell.getCellState() == CellState.SHIP){
+                b = true;
                 cell.setState(CellState.HIT);
                 int i = (int)cell.getLocation().getX();
                 int j = (int)cell.getLocation().getY();
@@ -142,12 +144,15 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener{
                 hitCount++;
             }
             else if (cell.getCellState() == CellState.WATER){
-                cell.setState(CellState.MISSED);
+                b = true;
+                if(hitCount <20) cell.setState(CellState.MISSED);
             }
             cell.paintCell();
-            if(hitCount == 20)
+            if(hitCount == 20) {
                 gameFinishedListener.onGameFinished();
-            else moveMadeListener.onMoveMade(cell);
+                hitCount++;
+            }
+            else if(hitCount <20 && b) moveMadeListener.onMoveMade(cell);
         }
     }
     private void clearHovered(){

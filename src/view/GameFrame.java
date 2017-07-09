@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 public class GameFrame extends JFrame {
     GamePanel gamePanel;
     public GameFrame(MessageManager messageManager , Player me) {
-        super("battle ship");
+        super(me.getName());
         setSize(800, 700);
         setDefaultCloseOperation(3);
         gamePanel = new GamePanel(messageManager , me);

@@ -19,7 +19,7 @@ public class GameFinishedMessage extends BaseMessage {
         int size = 4 + 1 + nameArray.length;
         ByteBuffer buffer = ByteBuffer.allocate(size);
         buffer.putInt(size);
-        buffer.put(MessageTypes.CHAT);
+        buffer.put(MessageTypes.GAME_FINISHED);
         buffer.put(nameArray);
         serialized = buffer.array();
     }
@@ -31,7 +31,7 @@ public class GameFinishedMessage extends BaseMessage {
 
     @Override
     public byte getMessageType() {
-        return MessageTypes.CHAT;
+        return MessageTypes.GAME_FINISHED;
     }
     public String getName(){
         return name;

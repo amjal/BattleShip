@@ -40,7 +40,7 @@ public class PleaseWait extends JFrame implements RequestAnswerListener {
                     } catch (IOException e) {
                     }
                 }
-                message.setText("found host! waiting to be accepted...");
+                message.setText("requested to join! waiting for response...");
             }
         });
         this.name = name;
@@ -49,6 +49,12 @@ public class PleaseWait extends JFrame implements RequestAnswerListener {
 
     @Override
     public void onReject() {
+        message.setText("Sorry you were rejected");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         dispose();
     }
 

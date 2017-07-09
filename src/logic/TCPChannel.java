@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.SocketException;
 
 /**
  * Created by amir on 7/3/17.
@@ -31,7 +32,6 @@ public class TCPChannel {
         try {
             inputStream.read(output);
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return output;
     }

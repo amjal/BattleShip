@@ -85,7 +85,7 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
                     if(turn == null){// we are ready but the enemy is not so we can't show enemy's grid we have to wait
                         turn = PlayerType.ME;
                         String message = "***"+me.getName()+" IS READY!***";
-                        chatArea.append(message);
+                        chatArea.append(message+"\n");
                         messageManager.onSendMessage(new ChatMessage(message));
                     }
                     else if (turn == PlayerType.ENEMY)// we are ready but after the enemy so our grid is shown
@@ -161,7 +161,6 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
     public void onMoveMade(Cell cell) {
         messageManager.onSendMessage(new GameMessage(cell));
         if(cell.getCellState() == CellState.MISSED) {
-            gamePlace.updateUI();
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -176,13 +175,11 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
     public void onGameFinished() {
         messageManager.onSendMessage(new GameFinishedMessage(me.getName()));
         chatArea.append("***"+me.getName()+" WON!***");
-        gamePlace.setEnabled(false);
     }
 
     @Override
     public void onGameFinishedMessageReceived(String name) {
-        chatArea.append("***"+name+" WON!***");
-        gamePlace.setEnabled(false);
+        chatArea.append("***"+name+" WON!***\n");
     }
 
     class ShipDragHandler extends MouseAdapter{
