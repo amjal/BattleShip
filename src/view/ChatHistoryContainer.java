@@ -1,17 +1,14 @@
 package view;
 
-import jdk.nashorn.api.scripting.JSObject;
-import logic.MessageManager;
-import logic.Player;
+
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sun.tools.internal.xjc.reader.Ring.add;
+
 
 /**
  * Created by parsa on 7/9/17.
