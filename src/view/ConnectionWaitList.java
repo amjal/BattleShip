@@ -81,11 +81,6 @@ public class ConnectionWaitList extends JFrame {
         }
     }
     public void makeFrame(){
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new GameFrame(messageManager ,player);
-            }
-        });
+        new GameFrame(messageManager ,player);
     }
 }

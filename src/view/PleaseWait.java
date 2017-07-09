@@ -54,12 +54,7 @@ public class PleaseWait extends JFrame implements RequestAnswerListener {
 
     @Override
     public void onAccept() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new GameFrame(messageManager ,new Player(name));
-            }
-        });
+        new GameFrame(messageManager ,new Player(name));
         dispose();
     }
 }

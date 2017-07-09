@@ -3,6 +3,7 @@ package logic;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
+import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -22,8 +23,8 @@ public class NetworkHandler{
     }
     public NetworkHandler(Socket socket, INetworkHandlerCallback iNetworkHandlerCAllback , String name){
         mTCPChannel = new TCPChannel(socket);
-        sendQueue = new PriorityQueue<>();
-        receivedQueue = new PriorityQueue<>();
+        sendQueue = new ArrayDeque<>();
+        receivedQueue = new ArrayDeque<>();
         this.iNetworkHandlerCallback = iNetworkHandlerCAllback;
         sendMessage(new GreetingMessage(name));
         consumerThread = new ReceivedMessageConsumer();
@@ -78,6 +79,10 @@ public class NetworkHandler{
                             iNetworkHandlerCallback.onMessageReceived(new ReadyMessage(receivedQueue.poll()),
                                     NetworkHandler.this);
                             break;
+                        }
+                        case MessageTypes.GAME_FINISHED:{
+                            iNetworkHandlerCallback.onMessageReceived(new GameFinishedMessage(receivedQueue.poll()),
+                                    NetworkHandler.this);
                         }
                     }
                 }

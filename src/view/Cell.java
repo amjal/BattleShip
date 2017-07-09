@@ -99,6 +99,10 @@ public class Cell extends JLabel implements Serializable{
                 setBackground(Color.gray);
                 break;
             }
+            case EMPTY_ZONE:{
+                setBackground(Color.gray);
+                break;
+            }
         }
     }
     public void setLocation(Point point){

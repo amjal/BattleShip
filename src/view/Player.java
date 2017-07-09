@@ -1,9 +1,6 @@
 package view;
 
-import logic.CellClickedOnListener;
-import logic.CellHoveredOnListener;
-import logic.MoveMadeListener;
-import logic.ShipReducedListener;
+import logic.*;
 import view.Cell;
 import view.CellState;
 
@@ -28,6 +25,8 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener{
     private int[] shipsLeft = {0,4,3,2,1};
     private PlayerType playerType;
     private MoveMadeListener moveMadeListener;
+    private int hitCount =0;
+    private GameFinishedListener gameFinishedListener;
     public Player(String name){
         this.name = name;
     }
@@ -50,14 +49,14 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener{
     }
     public void getGamePlace(JPanel gamePlace){
         gamePlace.removeAll();
-        gamePlace.setLayout(new GridLayout(10, 10));
+        gamePlace.setLayout(new GridLayout(10 , 10));
         for(int i=0 ; i < 10 ; i ++){
             for(int j =0 ; j < 10 ; j ++){
                 gamePlace.add(cells[i][j]);
             }
         }
-        gamePlace.repaint();
         gamePlace.revalidate();
+        gamePlace.repaint();
     }
 
     @Override
@@ -118,12 +117,37 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener{
         else if (cell.getCellType() == CellType.ENEMY_CELL){
             if(cell.getCellState() == CellState.SHIP){
                 cell.setState(CellState.HIT);
+                int i = (int)cell.getLocation().getX();
+                int j = (int)cell.getLocation().getY();
+                if(i > 0 && j >0){
+                    cells[i-1][j-1].setState(CellState.EMPTY_ZONE);
+                    cells[i-1][j-1].paintCell();
+                    moveMadeListener.onMoveMade(cells[i-1][j-1]);
+                }
+                if(i > 0 && j <9){
+                    cells[i-1][j+1].setState(CellState.EMPTY_ZONE);
+                    cells[i-1][j+1].paintCell();
+                    moveMadeListener.onMoveMade(cells[i-1][j+1]);
+                }
+                if(i <9 && j <9){
+                    cells[i+1][j+1].setState(CellState.EMPTY_ZONE);
+                    cells[i+1][j+1].paintCell();
+                    moveMadeListener.onMoveMade(cells[i+1][j+1]);
+                }
+                if(i <9 && j >0){
+                    cells[i+1][j-1].setState(CellState.EMPTY_ZONE);
+                    cells[i+1][j-1].paintCell();
+                    moveMadeListener.onMoveMade(cells[i+1][j-1]);
+                }
+                hitCount++;
             }
             else if (cell.getCellState() == CellState.WATER){
                 cell.setState(CellState.MISSED);
             }
             cell.paintCell();
-            moveMadeListener.onMoveMade(cell);
+            if(hitCount == 20)
+                gameFinishedListener.onGameFinished();
+            else moveMadeListener.onMoveMade(cell);
         }
     }
     private void clearHovered(){
@@ -223,5 +247,8 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener{
     }
     public void addMoveMadeListener(MoveMadeListener moveMadeListener){
         this.moveMadeListener = moveMadeListener;
+    }
+    public void addGameFinishedListener(GameFinishedListener gameFinishedListener){
+        this.gameFinishedListener = gameFinishedListener;
     }
 }
