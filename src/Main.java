@@ -21,18 +21,9 @@ public class Main {
 //        }
 //        new SelectConnectionMode();
 FileManager fileManager=new FileManager();
-fileManager.addToJsonObject("mohsen:salamm jigarammm");
+//fileManager.addToJsonObject("mohsen:salamm jigarammm");
 fileManager.loadHistory();
-        //FileManager fileManager = new FileManager("hello \n whats \n up");
-        // try {
-        //String str  =fileManager.readFile("file.txt");
-        //System.out.println(str);
 
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-       // FileManager fileManager = new FileManager();
-        //fileManager.makeJsonObject("nigga", "4:20");
 
     }
 }
