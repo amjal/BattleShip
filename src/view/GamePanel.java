@@ -140,11 +140,15 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
     @Override
     public void onGameMessageReceived(Cell cell) {
         me.setCellState(cell.getLocation() , cell.getCellState());
+        try {
+            sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if(cell.getCellState() == CellState.MISSED) {
             turn = PlayerType.ME;
             enemy.getGamePlace(gamePlace);
         }
-        gamePlace.repaint();
     }
 
     @Override
@@ -152,28 +156,18 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
         messageManager.onSendMessage(new GameMessage(cell));
         if(cell.getCellState() == CellState.MISSED) {
             turn = PlayerType.ENEMY;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+            try {
+                sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             me.getGamePlace(gamePlace);
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        try {
+            sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
