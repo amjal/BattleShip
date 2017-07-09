@@ -69,6 +69,16 @@ public class NetworkHandler{
                                    NetworkHandler.this);
                             break;
                         }
+                        case MessageTypes.GAME:{
+                            iNetworkHandlerCallback.onMessageReceived(new GameMessage(receivedQueue.poll()),
+                                    NetworkHandler.this);
+                            break;
+                        }
+                        case MessageTypes.READY:{
+                            iNetworkHandlerCallback.onMessageReceived(new ReadyMessage(receivedQueue.poll()),
+                                    NetworkHandler.this);
+                            break;
+                        }
                     }
                 }
                 else {

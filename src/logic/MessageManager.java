@@ -18,6 +18,8 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
     ConnectionWaitList connectionWaitList;
     RequestAnswerListener ral;
     ChatListener cl;
+    ReadyMessageListener rml;
+    GameMessageListener gml;
     public MessageManager(int port , String name){
         networkHandlerList = new ArrayList<>();
         serverSocketHandler = new ServerSocketHandler(port, this, this , name);
@@ -84,6 +86,18 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
                 cl.onChatReceived(m.getText());
                 break;
             }
+            case MessageTypes.GAME:{
+                GameMessage m = (GameMessage)baseMessage;
+                m.deserialize();
+                gml.onGameMessageReceived(m.getCell());
+                break;
+            }
+            case MessageTypes.READY:{
+                ReadyMessage m = (ReadyMessage)baseMessage;
+                m.deserialize();
+                rml.onReadyMessageReceived(m.getStates());
+                break;
+            }
         }
     }
 
@@ -101,5 +115,11 @@ public class MessageManager implements IServerSocketHandlerCallback, INetworkHan
     }
     public void addChatListener(ChatListener cl){
         this.cl = cl;
+    }
+    public void addReadyMessageListener(ReadyMessageListener rml){
+        this.rml = rml;
+    }
+    public void addGameMessageListener(GameMessageListener gml){
+        this.gml = gml;
     }
 }

@@ -1,15 +1,14 @@
 package logic;
 
-import view.CellState;
-import view.Player;
+import view.Cell;
 
 /**
- * Created by amir on 7/8/17.
+ * Created by amir on 7/9/17.
  */
 public class GameMessage extends BaseMessage {
-    CellState[][] states;
-    public GameMessage(CellState[][] states){
-        this.states = states;
+    Cell cell;
+    public GameMessage(Cell cell){
+        this.cell = cell;
     }
     public GameMessage(byte[] serialized){
         this.serialized = serialized;
@@ -28,7 +27,7 @@ public class GameMessage extends BaseMessage {
     public byte getMessageType() {
         return 0;
     }
-    public CellState[][] getStates(){
-        return states;
+    public Cell getCell(){
+        return cell;
     }
 }

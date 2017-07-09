@@ -8,18 +8,20 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.io.Serializable;
 
 /**
  * Created by parsa on 7/7/17.
  */
-public class Cell extends JLabel {
+public class Cell extends JLabel implements Serializable{
     private CellHoveredOnListener chol;
     private CellClickedOnListener ccol;
     private Point location;
     private CellState cellState;
-    public Cell(Point location){
+    private CellType celltype;
+    public Cell(Point location , CellType celltype){
         this.location = location;
+        this.celltype = celltype;
         cellState = CellState.WATER;
         setSize(50,50);
         setOpaque(true);
@@ -60,6 +62,9 @@ public class Cell extends JLabel {
     public CellState getCellState(){
         return cellState;
     }
+    public CellType getCelltype(){
+        return celltype;
+    }
     public void setState(CellState state){
         cellState = state;
     }
@@ -70,19 +75,26 @@ public class Cell extends JLabel {
                 break;
             }
             case SHIP:{
-                setBackground(Color.black);
+                if(celltype == CellType.ME_CELL)
+                    setBackground(Color.black);
+                else setBackground(Color.cyan);
                 break;
             }
             case FOLLOWING_HOVERED_OVER:{
                 setBackground(Color.blue);
                 break;
             }
-            case HOVERD_OVER:{
+            case HOVERED_OVER:{
                 setBackground(Color.blue);
                 break;
             }
             case WATER:{
                 setBackground(Color.cyan);
+                break;
+            }
+            case MISSED:{
+                setBackground(Color.gray);
+                break;
             }
         }
     }

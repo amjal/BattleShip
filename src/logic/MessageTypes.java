@@ -8,4 +8,5 @@ public class MessageTypes {
     public static final byte REQUEST_ANSWER = 2;
     public static final byte CHAT = 3;
     public static final byte READY = 4;
+    public static final byte GAME = 5;
 }

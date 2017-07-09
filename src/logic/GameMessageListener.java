@@ -1,11 +1,10 @@
 package logic;
 
-import view.CellState;
-import view.Player;
+import view.Cell;
 
 /**
- * Created by amir on 7/8/17.
+ * Created by amir on 7/9/17.
  */
 public interface GameMessageListener {
-    void onGameMessageReceived(CellState[][] states);
+    void onGameMessageReceived(Cell cell);
 }

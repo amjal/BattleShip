@@ -8,7 +8,7 @@ import java.awt.event.*;
 /**
  * Created by parsa on 7/5/17.
  */
-public class GamePanel extends JPanel implements ChatListener , ShipReducedListener , GameMessageListener {
+public class GamePanel extends JPanel implements ChatListener , ShipReducedListener , ReadyMessageListener, GameMessageListener ,MoveMadeListener{
     private JButton sendButton;
     private JTextField chatMessageField;
     private JSplitPane splitPane1;
@@ -30,13 +30,18 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
     MessageManager messageManager;
     Player me;
     Player enemy;
-    Player currentPlayer;
+    PlayerType turn = null;
     public GamePanel(MessageManager messageManager , Player me) {
         this.messageManager = messageManager;
         this.me = me;
+        this.me.cellsInit();
         enemy = new Player();
+        enemy.cellsInit();
         me.setPlayerType(PlayerType.ME);
+        enemy.setPlayerType(PlayerType.ENEMY);
         messageManager.addChatListener(this);
+        messageManager.addReadyMessageListener(this);
+        messageManager.addGameMessageListener(this);
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -45,9 +50,8 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
                 chatMessageField.setText("");
             }
         });
-        currentPlayer = me;
-        currentPlayer.getGamePlace(gamePlace);
-        currentPlayer.addShipReducedListener(this);
+        me.getGamePlace(gamePlace);
+        me.addShipReducedListener(this);
         myTableInit();
     }
     void myTableInit(){
@@ -58,8 +62,8 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                currentPlayer.reset();
-                currentPlayer.setSelectedShipSize(0);
+                me.reset();
+                me.setSelectedShipSize(0);
                 size1ShipN.setText(4+"");
                 size2ShipN.setText(3+"");
                 size3ShipN.setText(2+"");
@@ -70,8 +74,18 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if(size4ShipN.getText().equals("0") && size3ShipN.getText().equals("0") &&
-                        size2ShipN.getText().equals("0") && size1ShipN.getText().equals("0"))
-                    messageManager.onSendMessage(new GameMessage(me.getCellStates()));
+                        size2ShipN.getText().equals("0") && size1ShipN.getText().equals("0")) {
+                    messageManager.onSendMessage(new ReadyMessage(me.getCellStates()));
+                    if(turn == null){// we are ready but the enemy is not so we can't show enemy's grid we have to wait
+                        turn = PlayerType.ME;
+                    }
+                    else if (turn == PlayerType.ENEMY)// we are ready but after the enemy so the enemy's grid is shown
+                    {
+                        enemy.getGamePlace(gamePlace);
+                    }
+                readyButton.setEnabled(false);
+                resetButton.setEnabled(false);
+                }
             }
         });
     }
@@ -81,7 +95,6 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
     @Override
     public void onChatReceived(String text) {
         chatArea.append(text+"\n");
-
     }
 
     @Override
@@ -108,9 +121,29 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
     }
 
     @Override
-    public void onGameMessageReceived(CellState[][] states) {
-        enemy.setPlayerType(PlayerType.ENEMY);
-        enemy.setCellsStates(states);
+    public void onReadyMessageReceived(CellState[][] cellStates) {
+        enemy.setCellsStates(cellStates);
+        if(turn == null) // it's the beginning and we are not ready but the enemy is ready
+        {
+            turn = PlayerType.ENEMY;
+        }
+        else if (turn == PlayerType.ME) //it's the beginning of the game and we are ready before enemy
+        {
+            enemy.getGamePlace(gamePlace);
+        }
+
+    }
+
+    @Override
+    public void onGameMessageReceived(Cell cell) {
+
+    }
+
+    @Override
+    public void onMoveMade(Cell cell) {
+        messageManager.onSendMessage(new GameMessage(cell));
+        turn = PlayerType.ENEMY;
+        me.getGamePlace(gamePlace);
     }
 
     class ShipDragHandler extends MouseAdapter{
@@ -122,11 +155,11 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
         @Override
         public void mouseClicked(MouseEvent mouseEvent) {
             super.mouseClicked(mouseEvent);
-           if(currentPlayer.getSelectedShipSize() == size){
-               currentPlayer.setSelectedShipSize(0);
+           if(me.getSelectedShipSize() == size){
+               me.setSelectedShipSize(0);
            }
            else
-               currentPlayer.setSelectedShipSize(size);
+               me.setSelectedShipSize(size);
         }
     }
 }

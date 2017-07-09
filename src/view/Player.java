@@ -2,6 +2,7 @@ package view;
 
 import logic.CellClickedOnListener;
 import logic.CellHoveredOnListener;
+import logic.MoveMadeListener;
 import logic.ShipReducedListener;
 import view.Cell;
 import view.CellState;
@@ -18,7 +19,7 @@ import java.io.Serializable;
 /**
  * Created by amir on 7/6/17.
  */
-public class Player implements CellHoveredOnListener, CellClickedOnListener , Serializable{
+public class Player implements CellHoveredOnListener, CellClickedOnListener{
     private String name;
     private int selectedShipSize;
     private int currentShipDirection = SwingConstants.HORIZONTAL;
@@ -26,11 +27,23 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener , Se
     private Cell[][] cells = new Cell[10][10];
     private int[] shipsLeft = {0,4,3,2,1};
     private PlayerType playerType;
+    private MoveMadeListener moveMadeListener;
     public Player(String name){
         this.name = name;
     }
     public Player(){
 
+    }
+    public void cellsInit(){
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(playerType == PlayerType.ENEMY)
+                    cells[i][j] = new Cell(new Point(i , j) , CellType.ENEMY_CELL);
+                else cells[i][j] = new Cell(new Point(i,j) , CellType.ME_CELL);
+                cells[i][j].addCellHoveredOnListener(this);
+                cells[i][j].addCellClickedOnListener(this);
+            }
+        }
     }
     public String getName() {
         return name;
@@ -38,14 +51,13 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener , Se
     public void getGamePlace(JPanel gamePlace){
         gamePlace.removeAll();
         gamePlace.setLayout(new GridLayout(10, 10));
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                cells[i][j] = new Cell(new Point(i , j));
-                cells[i][j].addCellHoveredOnListener(this);
-                cells[i][j].addCellClickedOnListener(this);
+        for(int i=0 ; i < 10 ; i ++){
+            for(int j =0 ; j < 10 ; j ++){
                 gamePlace.add(cells[i][j]);
             }
         }
+        gamePlace.repaint();
+        gamePlace.revalidate();
     }
 
     @Override
@@ -64,54 +76,61 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener , Se
     }
     @Override
     public void cellClickedOn(Cell cell, int action) {
-        if(action == 1)//right click
-        {
-            if(currentShipDirection == SwingConstants.HORIZONTAL)
-                currentShipDirection = SwingConstants.VERTICAL;
-            else currentShipDirection = SwingConstants.HORIZONTAL;
-            clearHovered();
-            drawHovered(cell);
+        if(cell.getCelltype() == CellType.ME_CELL && cell.getCellState() == CellState.HOVERED_OVER) {
+            if (action == 1)//right click on initialize
+            {
+                if (currentShipDirection == SwingConstants.HORIZONTAL)
+                    currentShipDirection = SwingConstants.VERTICAL;
+                else currentShipDirection = SwingConstants.HORIZONTAL;
+                clearHovered();
+                drawHovered(cell);
+            } else if (action == 0) {// left click on initialize
+                for (int i = 0; i < 10; i++) {
+                    for (int j = 0; j < 10; j++) {
+                        if ((cells[i][j].getCellState() == CellState.HOVERED_OVER ||
+                                cells[i][j].getCellState() == CellState.FOLLOWING_HOVERED_OVER)) {
+                            if (i >0 && j >0 &&cells[i - 1][j - 1].getCellState() == CellState.SHIP) return;
+                            if (j >0 && cells[i][j - 1].getCellState() == CellState.SHIP) return;
+                            if (i <9 && j >0 && cells[i + 1][j - 1].getCellState() == CellState.SHIP) return;
+                            if (i >0 && cells[i - 1][j].getCellState() == CellState.SHIP) return;
+                            if (i <9 && cells[i + 1][j].getCellState() == CellState.SHIP) return;
+                            if (i >0 && j <9 &&cells[i - 1][j + 1].getCellState() == CellState.SHIP) return;
+                            if (j <9 && cells[i][j + 1].getCellState() == CellState.SHIP) return;
+                            if (i <9 && j <9 &&cells[i + 1][j + 1].getCellState() == CellState.SHIP) return;
+                        }
+                    }
+                }
+                for (int i = 0; i < 10; i++) {
+                    for (int j = 0; j < 10; j++) {
+                        if (cells[i][j].getCellState() == CellState.HOVERED_OVER ||
+                                cells[i][j].getCellState() == CellState.FOLLOWING_HOVERED_OVER) {
+                            if (cells[i][j].getCellState() == CellState.HOVERED_OVER) {
+                                shipsLeft[selectedShipSize]--;
+                                shipReducedListener.shipReduced(selectedShipSize);
+                            }
+                            cells[i][j].setState(CellState.SHIP);
+                            cells[i][j].paintCell();
+                        }
+                    }
+                }
+            }
         }
-        else if(action == 0){// left click
-            for(int i =0 ; i< 10 ;  i++){
-                for(int j =0 ; j < 10 ; j ++){
-                    if((cells[i][j].getCellState() == CellState.HOVERD_OVER ||
-                            cells[i][j].getCellState() == CellState.FOLLOWING_HOVERED_OVER)){
-                        try{
-                            if(cells[i-1][j-1].getCellState() == CellState.SHIP) return;
-                            if(cells[i][j-1].getCellState() == CellState.SHIP) return;
-                            if(cells[i+1][j-1].getCellState() == CellState.SHIP) return;
-                            if(cells[i-1][j].getCellState() == CellState.SHIP) return;
-                            if(cells[i+1][j].getCellState() == CellState.SHIP) return;
-                            if(cells[i-1][j+1].getCellState() == CellState.SHIP) return;
-                            if(cells[i][j+1].getCellState() == CellState.SHIP) return;
-                            if(cells[i+1][j+1].getCellState() == CellState.SHIP) return;
-                        }catch(ArrayIndexOutOfBoundsException e){
-
-                        }
-                    }
-                }
+        else if (cell.getCelltype() == CellType.ENEMY_CELL){
+            if(cell.getCellState() == CellState.SHIP){
+                cell.setState(CellState.HIT);
             }
-            for(int i =0 ; i<10 ; i ++){
-                for(int j =0 ; j < 10 ; j ++){
-                    if(cells[i][j].getCellState() == CellState.HOVERD_OVER ||
-                            cells[i][j].getCellState() == CellState.FOLLOWING_HOVERED_OVER){
-                        if(cells[i][j].getCellState() == CellState.HOVERD_OVER) {
-                            shipsLeft[selectedShipSize]--;
-                            shipReducedListener.shipReduced(selectedShipSize);
-                        }
-                        cells[i][j].setState(CellState.SHIP);
-                        cells[i][j].paintCell();
-                    }
-                }
+            else if (cell.getCellState() == CellState.WATER){
+                cell.setState(CellState.MISSED);
             }
+            cell.paintCell();
+            moveMadeListener.onMoveMade(cell);
         }
     }
     private void clearHovered(){
         for(int i =0 ; i < 10 ; i ++){
             for(int j =0 ; j < 10 ; j ++){
                 if(cells[i][j].getCellState() == CellState.FOLLOWING_HOVERED_OVER ||
-                        cells[i][j].getCellState() == CellState.HOVERD_OVER){
+                        cells[i][j].getCellState() == CellState.HOVERED_OVER){
                     cells[i][j].setState(CellState.WATER);
                     cells[i][j].paintCell();
                 }
@@ -128,7 +147,7 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener , Se
                             break;
                         }
                         if (i == 0) {
-                            cells[(int) cell.getLocation().getX() + i][(int) cell.getLocation().getY()].setState(CellState.HOVERD_OVER);
+                            cells[(int) cell.getLocation().getX() + i][(int) cell.getLocation().getY()].setState(CellState.HOVERED_OVER);
                         } else {
                             cells[(int) cell.getLocation().getX() + i][(int) cell.getLocation().getY()].setState(CellState.FOLLOWING_HOVERED_OVER);
                         }
@@ -145,7 +164,7 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener , Se
                             break;
                         }
                         if(j ==0) {
-                            cells[(int) cell.getLocation().getX()][(int) cell.getLocation().getY() + j].setState(CellState.HOVERD_OVER);
+                            cells[(int) cell.getLocation().getX()][(int) cell.getLocation().getY() + j].setState(CellState.HOVERED_OVER);
                         }
                         else {
                             cells[(int) cell.getLocation().getX()][(int) cell.getLocation().getY() + j].setState(CellState.FOLLOWING_HOVERED_OVER);
@@ -188,6 +207,7 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener , Se
         for(int i =0 ; i < 10 ; i ++){
             for (int j =0 ; j < 10 ; j ++){
                 cells[i][j].setState(states[i][j]);
+                cells[i][j].paintCell();
             }
         }
     }
@@ -199,5 +219,8 @@ public class Player implements CellHoveredOnListener, CellClickedOnListener , Se
             }
         }
         return output;
+    }
+    public void addMoveMadeListener(MoveMadeListener moveMadeListener){
+        this.moveMadeListener = moveMadeListener;
     }
 }
