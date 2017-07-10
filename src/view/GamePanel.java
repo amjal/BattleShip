@@ -4,6 +4,8 @@ import logic.*;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import static java.lang.Thread.sleep;
 
@@ -51,8 +53,10 @@ public class GamePanel extends JPanel implements ChatListener , ShipReducedListe
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                messageManager.onSendMessage(new ChatMessage(me.getName() + ": " + chatMessageField.getText()));
-                chatArea.append(me.getName() + ": " + chatMessageField.getText()+"\n");
+                Calendar cal = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                messageManager.onSendMessage(new ChatMessage(sdf.format(cal.getTime())+"\n\t"+me.getName() + ": " + chatMessageField.getText()));
+                chatArea.append(sdf.format(cal.getTime())+"\n\t"+me.getName() + ": " + chatMessageField.getText()+"\n");
                 chatMessageField.setText("");
             }
         });
